@@ -10,7 +10,6 @@
 
 **Detect AI-generated content and plagiarism with 99.2% accuracy — in seconds.**
 
-[🚀 Live Demo](#) · [📖 Documentation](#-api-reference) · [🐛 Report Bug](../../issues) · [✨ Request Feature](../../issues)
 
 </div>
 

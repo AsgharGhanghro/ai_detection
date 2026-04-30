@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextGuard AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f8fafc;
+            overflow: hidden;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .offline-container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .connection-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            color: #f87171;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .status {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+        }
+
+        .visual-container {
+            width: 220px;
+            height: 220px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid rgba(96, 165, 250, 0.3);
+            animation: wave 3s linear infinite;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: 1s;
+            border-color: rgba(167, 139, 250, 0.3);
+        }
+
+        .wave:nth-child(3) {
+            animation-delay: 2s;
+            border-color: rgba(248, 113, 113, 0.3);
+        }
+
+        @keyframes wave {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .center-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            color: #60a5fa;
+            z-index: 2;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #cbd5e1;
+            border: 2px solid #475569;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(71, 85, 105, 0.2);
+            border-color: #60a5fa;
+        }
+
+        .connection-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 640px) {
+            .offline-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .visual-container {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    
+     <!-- Fluid Effect Canvas -->
+        <canvas id="fluid"
+            style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:-1;"></canvas>
+
+        <!-- Your existing background effects -->
+        <div class="bg-blur-1"></div>
+        <div class="bg-blur-2"></div>
+
+        
+    <div class="particles" id="particles"></div>
+    
+    <div class="offline-container">
+        <div class="connection-icon">
+            <i class="fas fa-wifi-slash"></i>
+        </div>
+        
+
+        
+        <h1>Offline</h1>
+        <div class="status">Connection Lost</div>
+        
+        <div class="visual-container">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="center-icon">
+                <i class="fas fa-globe-americas"></i>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="retryConnection()">
+                <i class="fas fa-sync-alt"></i> Retry
+            </button>
+            <a href="index.html" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+        
+        <div class="connection-stats">
+            <div class="stat">
+                <div class="stat-value" id="retryCount">0</div>
+                <div class="stat-label">Retries</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="timeCounter">0s</div>
+                <div class="stat-label">Time</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">
+                    <i class="fas fa-bolt" id="signalIcon"></i>
+                </div>
+                <div class="stat-label">Signal</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Particles background
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = `rgba(96, 165, 250, ${Math.random() * 0.4})`;
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                // Animation
+                particle.animate([
+                    { transform: 'translateY(0px)' },
+                    { transform: `translateY(${Math.random() * 100 - 50}px)` }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    iterations: Infinity,
+                    direction: 'alternate'
+                });
+                
+                container.indexendChild(particle);
+            }
+        }
+
+        // Connection stats
+        let retries = 0;
+        let seconds = 0;
+        let timerInterval;
+
+        function updateStats() {
+            document.getElementById('retryCount').textContent = retries;
+            document.getElementById('timeCounter').textContent = seconds + 's';
+            
+            // Update signal icon based on retry attempts
+            const signalIcon = document.getElementById('signalIcon');
+            if (retries < 3) signalIcon.style.color = '#f87171';
+            else if (retries < 6) signalIcon.style.color = '#fbbf24';
+            else signalIcon.style.color = '#4ade80';
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                updateStats();
+            }, 1000);
+        }
+
+        function retryConnection() {
+            retries++;
+            updateStats();
+            
+            // Animate retry button
+            const btn = document.querySelector('.btn-primary');
+            btn.style.transform = 'rotate(180deg)';
+            setTimeout(() => {
+                btn.style.transform = '';
+                
+                if (navigator.onLine) {
+                    // Connection restored
+                    document.querySelector('.connection-icon').innerHTML = '<i class="fas fa-wifi"></i>';
+                    document.querySelector('.connection-icon').style.color = '#4ade80';
+                    document.querySelector('.status').textContent = 'Connected!';
+                    document.querySelector('.status').style.color = '#4ade80';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    // Still offline
+                    document.querySelector('.status').textContent = 'Still Offline...';
+                    setTimeout(() => {
+                        document.querySelector('.status').textContent = 'Connection Lost';
+                    }, 1000);
+                }
+            }, 300);
+        }
+
+        // Connection monitoring
+        function monitorConnection() {
+            if (navigator.onLine) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Auto-retry every 8 seconds
+            setInterval(() => {
+                if (navigator.onLine) {
+                    window.location.href = 'index.html';
+                }
+            }, 8000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            updateStats();
+            startTimer();
+            monitorConnection();
+            
+            // Click animation for container
+            const container = document.querySelector('.offline-container');
+            container.addEventListener('click', () => {
+                container.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    container.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Listen for connection changes
+        window.addEventListener('online', () => {
+            document.querySelector('.status').textContent = 'Reconnecting...';
+            setTimeout(() => window.location.href = 'index.html', 1000);
+        });
+
+    </script>
+
+
+<script>
+            // ===========================================
+            // FLUID EFFECT - Exact React Component Conversion
+            // ===========================================
+
+            let fluidAnimationId = null;
+            let fluidConfig = {
+                SIM_RESOLUTION: 128,
+                DYE_RESOLUTION: 1440,
+                CAPTURE_RESOLUTION: 512,
+                DENSITY_DISSIPATION: 3.5,
+                VELOCITY_DISSIPATION: 2,
+                PRESSURE: 0.1,
+                PRESSURE_ITERATIONS: 20,
+                CURL: 3,
+                SPLAT_RADIUS: 0.2,
+                SPLAT_FORCE: 6000,
+                SHADING: true,
+                COLOR_UPDATE_SPEED: 10,
+                BACK_COLOR: { r: 0.5, g: 0, b: 0 },
+                TRANSPARENT: true
+            };
+
+            // Initialize when page loads
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('Loading fluid effect...');
+                setTimeout(initFluidEffect, 500);
+            });
+
+            function initFluidEffect() {
+                const canvas = document.getElementById('fluid');
+                if (!canvas) {
+                    console.error('Fluid canvas not found');
+                    return;
+                }
+
+                // Set canvas size
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                window.addEventListener('resize', function () {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+
+                // Get WebGL context
+                const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (!gl) {
+                    console.error('WebGL not supported');
+                    // Fallback to canvas 2D effect
+                    initCanvasFallback();
+                    return;
+                }
+
+                console.log('WebGL initialized, starting fluid simulation...');
+                startWebGLFluid(gl, canvas);
+            }
+
+            function initCanvasFallback() {
+                console.log('Using Canvas 2D fallback');
+                const canvas = document.getElementById('fluid');
+                const ctx = canvas.getContext('2d');
+
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                window.addEventListener('resize', function () {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+
+                // Simple colorful particles
+                const particles = [];
+                const maxParticles = 100;
+
+                // Mouse tracking
+                let mouseX = canvas.width / 2;
+                let mouseY = canvas.height / 2;
+
+                window.addEventListener('mousemove', function (e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+
+                    // Create particles on mouse move
+                    for (let i = 0; i < 3; i++) {
+                        if (particles.length >= maxParticles) {
+                            particles.shift();
+                        }
+
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = 1 + Math.random() * 2;
+                        const vx = Math.cos(angle) * speed;
+                        const vy = Math.sin(angle) * speed;
+
+                        // Generate vibrant colors
+                        const hue = Math.floor(Math.random() * 360);
+                        const color = `hsla(${hue}, 100%, 70%, 0.3)`;
+
+                        particles.push({
+                            x: mouseX,
+                            y: mouseY,
+                            vx: vx,
+                            vy: vy,
+                            radius: 2 + Math.random() * 3,
+                            color: color,
+                            life: 1.0,
+                            decay: 0.02
+                        });
+                    }
+                });
+
+                // Animation loop
+                function animate() {
+                    // Clear with fade effect
+                    ctx.fillStyle = 'rgba(12, 12, 25, 0.1)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    // Update and draw particles
+                    for (let i = particles.length - 1; i >= 0; i--) {
+                        const p = particles[i];
+
+                        p.x += p.vx;
+                        p.y += p.vy;
+
+                        // Add some randomness
+                        p.vx += (Math.random() - 0.5) * 0.2;
+                        p.vy += (Math.random() - 0.5) * 0.2;
+
+                        // Friction
+                        p.vx *= 0.98;
+                        p.vy *= 0.98;
+
+                        // Gravity
+                        p.vy += 0.05;
+
+                        // Life decay
+                        p.life -= p.decay;
+                        p.radius *= 0.99;
+
+                        // Remove dead particles
+                        if (p.life <= 0 || p.radius <= 0.1) {
+                            particles.splice(i, 1);
+                            continue;
+                        }
+
+                        // Draw particle
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color.replace('0.3', p.life * 0.3);
+                        ctx.fill();
+
+                        // Draw glow
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color.replace('0.3', p.life * 0.1);
+                        ctx.fill();
+                    }
+
+                    fluidAnimationId = requestAnimationFrame(animate);
+                }
+
+                // Start animation
+                animate();
+
+                console.log('Canvas 2D fluid effect started');
+            }
+
+            function startWebGLFluid(gl, canvas) {
+                console.log('Starting WebGL fluid simulation...');
+
+                // Simplified WebGL shader for colorful fluid
+                const vertexShader = `attribute vec2 aPosition;
+        void main() {
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }`;
+
+                const fragmentShader = `precision mediump float;
+        uniform float time;
+        uniform vec2 resolution;
+        uniform vec2 mouse;
+        
+        void main() {
+            vec2 uv = gl_FragCoord.xy / resolution;
+            vec2 mouseUV = mouse / resolution;
+            
+            // Create flowing colors
+            float r = 0.5 + 0.3 * sin(time * 0.5 + uv.x * 3.0 + uv.y * 2.0);
+            float g = 0.5 + 0.3 * sin(time * 0.7 + uv.x * 2.0 + uv.y * 3.0);
+            float b = 0.5 + 0.3 * sin(time * 0.9 + uv.x * 4.0 + uv.y * 2.0);
+            
+            // Add mouse interaction
+            float dist = distance(uv, mouseUV);
+            float mouseEffect = 0.05 / max(dist, 0.05);
+            
+            r += mouseEffect * sin(time * 0.8);
+            g += mouseEffect * sin(time * 0.6);
+            b += mouseEffect * sin(time * 0.7);
+            
+            gl_FragColor = vec4(r * 0.3, g * 0.3, b * 0.3, 0.2);
+        }`;
+
+                // Create shader program
+                const program = gl.createProgram();
+                const vs = gl.createShader(gl.VERTEX_SHADER);
+                const fs = gl.createShader(gl.FRAGMENT_SHADER);
+
+                gl.shaderSource(vs, vertexShader);
+                gl.shaderSource(fs, fragmentShader);
+                gl.compileShader(vs);
+                gl.compileShader(fs);
+                gl.attachShader(program, vs);
+                gl.attachShader(program, fs);
+                gl.linkProgram(program);
+                gl.useProgram(program);
+
+                // Create vertices for fullscreen quad
+                const vertices = new Float32Array([
+                    -1, -1, 1, -1, -1, 1,
+                    1, -1, 1, 1, -1, 1
+                ]);
+
+                const buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+                const positionLocation = gl.getAttribLocation(program, "aPosition");
+                gl.enableVertexAttribArray(positionLocation);
+                gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+                // Get uniform locations
+                const timeLocation = gl.getUniformLocation(program, "time");
+                const resolutionLocation = gl.getUniformLocation(program, "resolution");
+                const mouseLocation = gl.getUniformLocation(program, "mouse");
+
+                // Mouse tracking
+                let mouseX = 0;
+                let mouseY = 0;
+
+                window.addEventListener('mousemove', function (e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                // Animation loop
+                let time = 0;
+                function animate() {
+                    time += 0.01;
+
+                    // Set uniforms
+                    gl.uniform1f(timeLocation, time);
+                    gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                    gl.uniform2f(mouseLocation, mouseX, canvas.height - mouseY);
+
+                    // Clear
+                    gl.clearColor(0.0, 0.0, 0.0, 0.0);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+
+                    // Draw
+                    gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+                    fluidAnimationId = requestAnimationFrame(animate);
+                }
+
+                // Start animation
+                animate();
+
+                console.log('WebGL fluid simulation running');
+            }
+
+            // Clean up on page unload
+            window.addEventListener('beforeunload', function () {
+                if (fluidAnimationId) {
+                    cancelAnimationFrame(fluidAnimationId);
+                }
+            });
+        </script>
+
+
+</body>
+</html>

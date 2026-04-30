@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - TextGuard AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .policy-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .policy-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-top: 2rem;
+        }
+
+        .policy-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .policy-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .policy-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .policy-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .policy-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .policy-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .policy-content ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .policy-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .policy-content strong {
+            color: var(--text-primary);
+        }
+
+        .highlight-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .last-updated {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        @media (max-width: 768px) {
+            .policy-container {
+                padding: 2rem 1rem;
+            }
+
+            .policy-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .policy-section h2 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+     <!-- Fluid Effect Canvas -->
+        <canvas id="fluid"
+            style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:-1;"></canvas>
+
+        <!-- Your existing background effects -->
+        <div class="bg-blur-1"></div>
+        <div class="bg-blur-2"></div>
+        
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>TextGuard AI</span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="privacy.html" class="nav-link">Privacy</a>
+                <a href="terms.html" class="nav-link active">Terms</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-auth" onclick="openAuthModal()">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Terms of Service Content -->
+    <div class="policy-container">
+        <div class="policy-header">
+            <h1><i class="fas fa-scroll"></i> Terms of Service</h1>
+            <p>Last Updated: January 2026</p>
+        </div>
+
+        <!-- Section 1 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-handshake"></i> Agreement to Terms</h2>
+            <div class="policy-content">
+                <p>By accessing and using TextGuard AI's website and services ("Services"), you accept and agree to be
+                    bound by and comply with these Terms of Service. If you do not agree to abide by the above, please
+                    do not use this Service.</p>
+                <div class="highlight-box">
+                    <p><strong>Note:</strong> If you are entering into these Terms on behalf of a company, organization,
+                        or other legal entity, you represent that you have the authority to bind such entity to these
+                        Terms.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-user"></i> Use License</h2>
+            <div class="policy-content">
+                <p>Permission is granted to temporarily download one copy of the materials (information or software) on
+                    TextGuard AI's website for personal, non-commercial transitory viewing only. This is the grant of a
+                    license, not a transfer of title, and under this license you may not:</p>
+                <ul>
+                    <li>Modify or copy the materials</li>
+                    <li>Use the materials for any commercial purpose or for any public display</li>
+                    <li>Attempt to decompile or reverse engineer any software</li>
+                    <li>Remove any copyright or other proprietary notations from the materials</li>
+                    <li>Transfer the materials to another person or "mirror" the materials on any other server</li>
+                    <li>Use automated tools (bots, scrapers) to access or collect data</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Disclaimer</h2>
+            <div class="policy-content">
+                <p>The materials on TextGuard AI's website are provided on an 'as is' basis. TextGuard AI makes no
+                    warranties, expressed or implied, and hereby disclaims and negates all other warranties including,
+                    without limitation, implied warranties or conditions of merchantability, fitness for a particular
+                    purpose, or non-infringement of intellectual property or other violation of rights.</p>
+                <ul>
+                    <li>Our Services are provided "as-is" and "as-available"</li>
+                    <li>We do not guarantee 100% accuracy of detection results</li>
+                    <li>We are not liable for any damages resulting from use of the Service</li>
+                    <li>Detection results are for reference only and should not be used as sole basis for decisions</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-gavel"></i> Limitations</h2>
+            <div class="policy-content">
+                <p>In no event shall TextGuard AI or its suppliers be liable for any damages (including, without
+                    limitation, damages for loss of data or profit, or due to business interruption) arising out of the
+                    use or inability to use the materials on TextGuard AI's website.</p>
+            </div>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-file-contract"></i> Accuracy of Materials</h2>
+            <div class="policy-content">
+                <p>The materials appearing on TextGuard AI's website could include technical, typographical, or
+                    photographic errors. TextGuard AI does not warrant that any of the materials on its website are
+                    accurate, complete, or current. TextGuard AI may make changes to the materials contained on its
+                    website at any time without notice.</p>
+            </div>
+        </div>
+
+        <!-- Section 6 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-link"></i> Links</h2>
+            <div class="policy-content">
+                <p>TextGuard AI has not reviewed all of the sites linked to its website and is not responsible for the
+                    contents of any such linked site. The inclusion of any link does not imply endorsement by TextGuard
+                    AI of the site. Use of any such linked website is at the user's own risk.</p>
+            </div>
+        </div>
+
+        <!-- Section 7 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-edit"></i> Modifications</h2>
+            <div class="policy-content">
+                <p>TextGuard AI may revise these terms of service for its website at any time without notice. By using
+                    this website, you are agreeing to be bound by the then current version of these terms of service.
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 8 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-ban"></i> Prohibited Activities</h2>
+            <div class="policy-content">
+                <p>You agree not to use the Services to:</p>
+                <ul>
+                    <li>Violate any laws or regulations</li>
+                    <li>Infringe upon intellectual property rights</li>
+                    <li>Harass, abuse, or harm others</li>
+                    <li>Upload malware or harmful code</li>
+                    <li>Engage in fraudulent or deceptive activities</li>
+                    <li>Violate the privacy or security of others</li>
+                    <li>Circumvent security measures or rate limits</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 9 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-ban-circle"></i> Account Termination</h2>
+            <div class="policy-content">
+                <p>TextGuard AI reserves the right to terminate or suspend your account and access to the Services at
+                    any time for any reason, including if you violate these Terms. Upon termination, your right to use
+                    the Services will immediately cease.</p>
+            </div>
+        </div>
+
+        <!-- Section 10 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-copy"></i> Intellectual Property Rights</h2>
+            <div class="policy-content">
+                <p>All materials on TextGuard AI's website, including text, graphics, logos, images, and software, are
+                    the property of TextGuard AI or its content suppliers and are protected by international copyright
+                    laws. You are granted a limited license to use these materials solely for authorized purposes.</p>
+            </div>
+        </div>
+
+        <!-- Section 11 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-ruler"></i> Governing Law</h2>
+            <div class="policy-content">
+                <p>These terms and conditions are governed by and construed in accordance with the laws of [Your
+                    Jurisdiction], and you irrevocably submit to the exclusive jurisdiction of the courts in that
+                    location.</p>
+            </div>
+        </div>
+
+        <!-- Section 12 -->
+        <div class="policy-section">
+            <h2><i class="fas fa-envelope"></i> Contact Information</h2>
+            <div class="policy-content">
+                <p>If you have any questions about these Terms of Service, please contact us:</p>
+                <ul>
+                    <li><strong>Email:</strong> aliasghargh540@gmail.com</li>
+                    <li><strong>Website:</strong> www.textguardai.com</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="last-updated">
+            <p>By using TextGuard AI, you acknowledge that you have read and understood these Terms of Service and agree
+                to be bound by them.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>TextGuard AI</span>
+                </div>
+                <div class="footer-links">
+                    <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                    <a href="terms.html" class="footer-link">Terms of Service</a>
+                    <a href="index.html" class="footer-link">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.fiverr.com/s/Ldb5DgA" target="_blank" rel="noopener noreferrer" title="Fiverr">
+                        <i class="fab fa-fonticons-fi"></i>
+                    </a>
+                    <a href="https://github.com/AsgharGhanghro" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/ali-asghar-a730322bb/" target="_blank"><i
+                            class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TextGuard AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===========================================
+        // FLUID EFFECT - Exact React Component Conversion
+        // ===========================================
+
+        let fluidAnimationId = null;
+        let fluidConfig = {
+            SIM_RESOLUTION: 128,
+            DYE_RESOLUTION: 1440,
+            CAPTURE_RESOLUTION: 512,
+            DENSITY_DISSIPATION: 3.5,
+            VELOCITY_DISSIPATION: 2,
+            PRESSURE: 0.1,
+            PRESSURE_ITERATIONS: 20,
+            CURL: 3,
+            SPLAT_RADIUS: 0.2,
+            SPLAT_FORCE: 6000,
+            SHADING: true,
+            COLOR_UPDATE_SPEED: 10,
+            BACK_COLOR: { r: 0.5, g: 0, b: 0 },
+            TRANSPARENT: true
+        };
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Loading fluid effect...');
+            setTimeout(initFluidEffect, 500);
+        });
+
+        function initFluidEffect() {
+            const canvas = document.getElementById('fluid');
+            if (!canvas) {
+                console.error('Fluid canvas not found');
+                return;
+            }
+
+            // Set canvas size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Get WebGL context
+            const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (!gl) {
+                console.error('WebGL not supported');
+                // Fallback to canvas 2D effect
+                initCanvasFallback();
+                return;
+            }
+
+            console.log('WebGL initialized, starting fluid simulation...');
+            startWebGLFluid(gl, canvas);
+        }
+
+        function initCanvasFallback() {
+            console.log('Using Canvas 2D fallback');
+            const canvas = document.getElementById('fluid');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Simple colorful particles
+            const particles = [];
+            const maxParticles = 100;
+
+            // Mouse tracking
+            let mouseX = canvas.width / 2;
+            let mouseY = canvas.height / 2;
+
+            window.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                // Create particles on mouse move
+                for (let i = 0; i < 3; i++) {
+                    if (particles.length >= maxParticles) {
+                        particles.shift();
+                    }
+
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 1 + Math.random() * 2;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+
+                    // Generate vibrant colors
+                    const hue = Math.floor(Math.random() * 360);
+                    const color = `hsla(${hue}, 100%, 70%, 0.3)`;
+
+                    particles.push({
+                        x: mouseX,
+                        y: mouseY,
+                        vx: vx,
+                        vy: vy,
+                        radius: 2 + Math.random() * 3,
+                        color: color,
+                        life: 1.0,
+                        decay: 0.02
+                    });
+                }
+            });
+
+            // Animation loop
+            function animate() {
+                // Clear with fade effect
+                ctx.fillStyle = 'rgba(12, 12, 25, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Update and draw particles
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Add some randomness
+                    p.vx += (Math.random() - 0.5) * 0.2;
+                    p.vy += (Math.random() - 0.5) * 0.2;
+
+                    // Friction
+                    p.vx *= 0.98;
+                    p.vy *= 0.98;
+
+                    // Gravity
+                    p.vy += 0.05;
+
+                    // Life decay
+                    p.life -= p.decay;
+                    p.radius *= 0.99;
+
+                    // Remove dead particles
+                    if (p.life <= 0 || p.radius <= 0.1) {
+                        particles.splice(i, 1);
+                        continue;
+                    }
+
+                    // Draw particle
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace('0.3', p.life * 0.3);
+                    ctx.fill();
+
+                    // Draw glow
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace('0.3', p.life * 0.1);
+                    ctx.fill();
+                }
+
+                fluidAnimationId = requestAnimationFrame(animate);
+            }
+
+            // Start animation
+            animate();
+
+            console.log('Canvas 2D fluid effect started');
+        }
+
+        function startWebGLFluid(gl, canvas) {
+            console.log('Starting WebGL fluid simulation...');
+
+            // Simplified WebGL shader for colorful fluid
+            const vertexShader = `attribute vec2 aPosition;
+        void main() {
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }`;
+
+            const fragmentShader = `precision mediump float;
+        uniform float time;
+        uniform vec2 resolution;
+        uniform vec2 mouse;
+        
+        void main() {
+            vec2 uv = gl_FragCoord.xy / resolution;
+            vec2 mouseUV = mouse / resolution;
+            
+            // Create flowing colors
+            float r = 0.5 + 0.3 * sin(time * 0.5 + uv.x * 3.0 + uv.y * 2.0);
+            float g = 0.5 + 0.3 * sin(time * 0.7 + uv.x * 2.0 + uv.y * 3.0);
+            float b = 0.5 + 0.3 * sin(time * 0.9 + uv.x * 4.0 + uv.y * 2.0);
+            
+            // Add mouse interaction
+            float dist = distance(uv, mouseUV);
+            float mouseEffect = 0.05 / max(dist, 0.05);
+            
+            r += mouseEffect * sin(time * 0.8);
+            g += mouseEffect * sin(time * 0.6);
+            b += mouseEffect * sin(time * 0.7);
+            
+            gl_FragColor = vec4(r * 0.3, g * 0.3, b * 0.3, 0.2);
+        }`;
+
+            // Create shader program
+            const program = gl.createProgram();
+            const vs = gl.createShader(gl.VERTEX_SHADER);
+            const fs = gl.createShader(gl.FRAGMENT_SHADER);
+
+            gl.shaderSource(vs, vertexShader);
+            gl.shaderSource(fs, fragmentShader);
+            gl.compileShader(vs);
+            gl.compileShader(fs);
+            gl.attachShader(program, vs);
+            gl.attachShader(program, fs);
+            gl.linkProgram(program);
+            gl.useProgram(program);
+
+            // Create vertices for fullscreen quad
+            const vertices = new Float32Array([
+                -1, -1, 1, -1, -1, 1,
+                1, -1, 1, 1, -1, 1
+            ]);
+
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+            const positionLocation = gl.getAttribLocation(program, "aPosition");
+            gl.enableVertexAttribArray(positionLocation);
+            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+            // Get uniform locations
+            const timeLocation = gl.getUniformLocation(program, "time");
+            const resolutionLocation = gl.getUniformLocation(program, "resolution");
+            const mouseLocation = gl.getUniformLocation(program, "mouse");
+
+            // Mouse tracking
+            let mouseX = 0;
+            let mouseY = 0;
+
+            window.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            // Animation loop
+            let time = 0;
+            function animate() {
+                time += 0.01;
+
+                // Set uniforms
+                gl.uniform1f(timeLocation, time);
+                gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                gl.uniform2f(mouseLocation, mouseX, canvas.height - mouseY);
+
+                // Clear
+                gl.clearColor(0.0, 0.0, 0.0, 0.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                // Draw
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+                fluidAnimationId = requestAnimationFrame(animate);
+            }
+
+            // Start animation
+            animate();
+
+            console.log('WebGL fluid simulation running');
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function () {
+            if (fluidAnimationId) {
+                cancelAnimationFrame(fluidAnimationId);
+            }
+        });
+    </script>
+
+    <script src="authentication.js"></script>
+</body>
+
+</html>

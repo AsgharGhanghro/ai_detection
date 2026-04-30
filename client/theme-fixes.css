@@ -1,0 +1,155 @@
+/* theme-fixes.css */
+:root[data-theme="light"] {
+    /* Light theme colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-card: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --primary: #6366f1;
+    --secondary: #8b5cf6;
+    --accent: #ec4899;
+    
+    /* Profile page specific */
+    --profile-bg: #f8fafc;
+    --profile-card-bg: #ffffff;
+    --profile-card-border: #e2e8f0;
+    --profile-text-primary: #1e293b;
+    --profile-text-secondary: #64748b;
+}
+
+:root[data-theme="dark"] {
+    /* Dark theme colors */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-card: rgba(30, 41, 59, 0.7);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: rgba(148, 163, 184, 0.1);
+    --primary: #6366f1;
+    --secondary: #8b5cf6;
+    --accent: #ec4899;
+    
+    /* Profile page specific */
+    --profile-bg: #0f172a;
+    --profile-card-bg: rgba(30, 41, 59, 0.7);
+    --profile-card-border: rgba(148, 163, 184, 0.1);
+    --profile-text-primary: #f1f5f9;
+    --profile-text-secondary: #94a3b8;
+}
+
+/* Global styles that apply to both themes */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Fix glass card backgrounds for light mode */
+.glass-card {
+    background: var(--bg-card) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Fix all background issues in light mode */
+.auth-modal-content,
+.modal-content,
+.dashboard-section,
+.model-section,
+.features-section,
+.footer {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Fix text colors */
+h1, h2, h3, h4, h5, h6,
+p, span, div, a {
+    color: var(--text-primary) !important;
+}
+
+/* Fix form inputs */
+input, textarea, select {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Fix button hover states */
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Fix notification colors in light mode */
+.notification {
+    color: var(--text-primary) !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Fix stat cards */
+.stat-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Fix profile page specific elements */
+.profile-nav {
+    background: var(--bg-card) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.profile-header,
+.info-card,
+.stat-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Fix chart colors for light mode */
+.chartjs-render-monitor {
+    color: var(--text-primary) !important;
+}
+
+/* Fix legend colors */
+.legend-item span {
+    color: var(--text-primary) !important;
+}
+
+/* Fix footer */
+.footer {
+    background: var(--bg-secondary) !important;
+    border-top: 1px solid var(--border-color) !important;
+}
+
+/* Fix mode selector */
+.mode-btn {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.mode-btn.active {
+    background: var(--primary) !important;
+    color: white !important;
+}
+
+/* Fix text highlight colors */
+.ai-highlight {
+    background: rgba(99, 102, 241, 0.2) !important;
+    border-left: 3px solid var(--primary) !important;
+}
+
+.human-highlight {
+    background: rgba(16, 185, 129, 0.2) !important;
+    border-left: 3px solid #10b981 !important;
+}
+
+.plagiarism-highlight {
+    background: rgba(245, 158, 11, 0.2) !important;
+    border-left: 3px solid #f59e0b !important;
+}

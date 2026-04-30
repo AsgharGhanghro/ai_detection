@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - TextGuard AI</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        /* Dark Theme (Default) */
+        [data-theme="dark"] {
+            --bg-dark: #0c0c19;
+            --bg-card: rgba(15, 15, 26, 0.9);
+            --bg-light: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --text-muted: #6c6c8c;
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --nav-bg: rgba(20, 20, 20, 0.8);
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-dark: #f5f5f7;
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --bg-light: rgba(0, 0, 0, 0.03);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --text-primary: #000000;
+            --text-secondary: #4a4a6a;
+            --text-muted: #8a8a9a;
+            --input-bg: rgba(0, 0, 0, 0.05);
+            --nav-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Auto Theme - defaults to dark, can be enhanced with media query */
+        [data-theme="auto"] {
+            --bg-dark: #0c0c19;
+            --bg-card: rgba(15, 15, 26, 0.9);
+            --bg-light: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --text-muted: #6c6c8c;
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --nav-bg: rgba(20, 20, 20, 0.8);
+        }
+
+        @media (prefers-color-scheme: light) {
+            [data-theme="auto"] {
+                --bg-dark: #f5f5f7;
+                --bg-card: rgba(255, 255, 255, 0.95);
+                --bg-light: rgba(0, 0, 0, 0.03);
+                --border-color: rgba(0, 0, 0, 0.1);
+                --text-primary: #000000;
+                --text-secondary: #4a4a6a;
+                --text-muted: #8a8a9a;
+                --input-bg: rgba(0, 0, 0, 0.05);
+                --nav-bg: rgba(255, 255, 255, 0.9);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Background Effects */
+        .bg-blur-1,
+        .bg-blur-2 {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .bg-blur-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .bg-blur-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0) 70%);
+            bottom: -150px;
+            left: -150px;
+        }
+
+        [data-theme="light"] .bg-blur-1 {
+            opacity: 0.3;
+        }
+
+        [data-theme="light"] .bg-blur-2 {
+            opacity: 0.3;
+        }
+
+        /* Navigation */
+        .settings-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-brand i {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* Main Container */
+        .settings-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 2rem 4rem;
+        }
+
+        /* Header */
+        .settings-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+        }
+
+        .settings-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .settings-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        /* Settings Grid */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Sidebar */
+        .settings-sidebar {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-nav a:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+
+        .sidebar-nav a.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        /* Settings Content */
+        .settings-content {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: border-color 0.3s ease;
+        }
+
+        .section-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .section-header h3 {
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Toggle Groups */
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: var(--bg-light);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--border-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Text Size Selector */
+        .text-size-selector {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .size-option {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-primary);
+        }
+
+        .size-option:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .size-option.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .size-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .size-example {
+            font-size: 1.25rem;
+            opacity: 0.8;
+        }
+
+        /* Theme Selector */
+        .theme-selector {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .theme-option {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-primary);
+        }
+
+        .theme-option:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .theme-option.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .theme-option i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        .btn-danger:hover {
+            background: var(--error);
+            color: white;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            transition: border-color 0.3s ease;
+        }
+
+        /* Password Input */
+        .password-input {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* Danger Zone */
+        .danger-zone {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            border-radius: 10px;
+        }
+
+        .danger-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--error);
+        }
+
+        .danger-zone p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        /* Select dropdown */
+        select.form-control {
+            cursor: pointer;
+        }
+
+        select.form-control option {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .settings-sidebar {
+                order: 2;
+            }
+            
+            .text-size-selector,
+            .theme-selector {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .settings-container {
+                padding: 100px 1rem 2rem;
+            }
+            
+            .settings-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Background Effects -->
+    <div class="bg-blur-1"></div>
+    <div class="bg-blur-2"></div>
+
+    <!-- Fluid Effect Canvas -->
+        <canvas id="fluid"
+            style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:-1;"></canvas>
+
+        <!-- Your existing background effects -->
+        <div class="bg-blur-1"></div>
+        <div class="bg-blur-2"></div>
+
+    <!-- Navigation -->
+    <nav class="settings-nav">
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>TextGuard AI</span>
+            </a>
+            <div class="nav-actions">
+                <a href="profile.html" class="btn btn-secondary">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+
+                <a href="history.html" class="btn btn-secondary">
+                <i class="fas fa-history"></i> History
+            </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Settings Content -->
+    <div class="settings-container">
+        <div class="settings-header">
+            <h1><i class="fas fa-cog"></i> Settings</h1>
+            <p>Manage your account preferences and settings</p>
+        </div>
+        
+        <div class="settings-grid">
+            <!-- Sidebar Navigation -->
+            <div class="settings-sidebar">
+                <ul class="sidebar-nav">
+                    <li><a href="#profile" class="active" onclick="showSection('profile')">
+                        <i class="fas fa-user-edit"></i> Profile
+                    </a></li>
+                    <li><a href="#appearance" onclick="showSection('appearance')">
+                        <i class="fas fa-palette"></i> Appearance
+                    </a></li>
+                    <li><a href="#notifications" onclick="showSection('notifications')">
+                        <i class="fas fa-bell"></i> Notifications
+                    </a></li>
+                    <li><a href="#security" onclick="showSection('security')">
+                        <i class="fas fa-shield-alt"></i> Security
+                    </a></li>
+                    <li><a href="#preferences" onclick="showSection('preferences')">
+                        <i class="fas fa-sliders-h"></i> Preferences
+                    </a></li>
+                </ul>
+            </div>
+            
+            <!-- Settings Content -->
+            <div class="settings-content">
+                <!-- Profile Section -->
+                <div id="profile-section" class="settings-section active">
+                    <div class="section-header">
+                        <h2><i class="fas fa-user-edit"></i> Profile Settings</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="profile-name">Full Name</label>
+                        <input type="text" class="form-control" id="profile-name" placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="profile-email">Email Address</label>
+                        <input type="email" class="form-control" id="profile-email" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="profile-bio">Bio</label>
+                        <textarea class="form-control" id="profile-bio" rows="3" placeholder="Tell us about yourself"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="profile-location">Location</label>
+                        <input type="text" class="form-control" id="profile-location" placeholder="Your location">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="profile-website">Website</label>
+                        <input type="url" class="form-control" id="profile-website" placeholder="https://example.com">
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="saveProfileSettings()">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                       
+                    </div>
+                </div>
+                
+                <!-- Appearance Section -->
+                <div id="appearance-section" class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-palette"></i> Appearance</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Theme</label>
+                        <div class="theme-selector">
+                            <div class="theme-option active" onclick="setTheme('dark')" data-theme="dark">
+                                <i class="fas fa-moon"></i>
+                                <div class="size-label">Dark</div>
+                            </div>
+                            <div class="theme-option" onclick="setTheme('light')" data-theme="light">
+                                <i class="fas fa-sun"></i>
+                                <div class="size-label">Light</div>
+                            </div>
+                            <div class="theme-option" onclick="setTheme('auto')" data-theme="auto">
+                                <i class="fas fa-desktop"></i>
+                                <div class="size-label">Auto</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Text Size</label>
+                        <div class="text-size-selector">
+                            <div class="size-option" onclick="setTextSize('small')">
+                                <div class="size-label">Small</div>
+                                <div class="size-example" style="font-size: 0.875rem;">Aa</div>
+                            </div>
+                            <div class="size-option active" onclick="setTextSize('medium')">
+                                <div class="size-label">Medium</div>
+                                <div class="size-example" style="font-size: 1rem;">Aa</div>
+                            </div>
+                            <div class="size-option" onclick="setTextSize('large')">
+                                <div class="size-label">Large</div>
+                                <div class="size-example" style="font-size: 1.125rem;">Aa</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <i class="fas fa-play-circle"></i>
+                                Enable Animations
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="animations" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="saveAppearanceSettings()">
+                            <i class="fas fa-check"></i> Apply Changes
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Notifications Section -->
+                <div id="notifications-section" class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-bell"></i> Notifications</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Notifications
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="email-notifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <i class="fas fa-check-circle"></i>
+                                Analysis Complete
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="analysis-complete" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <i class="fas fa-chart-line"></i>
+                                Weekly Reports
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="weekly-reports">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <i class="fas fa-rocket"></i>
+                                Product Updates
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="product-updates" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="saveNotificationSettings()">
+                            <i class="fas fa-save"></i> Save Preferences
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Security Section -->
+                <div id="security-section" class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-shield-alt"></i> Security</h2>
+                    </div>
+                    
+                    <h3 style="margin-bottom: 1.5rem; color: var(--text-primary);">Change Password</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="current-password">Current Password</label>
+                        <div class="password-input">
+                            <input type="password" class="form-control" id="current-password" placeholder="Enter current password">
+                            <button type="button" class="password-toggle" onclick="togglePassword('current-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">New Password</label>
+                        <div class="password-input">
+                            <input type="password" class="form-control" id="new-password" placeholder="Enter new password">
+                            <button type="button" class="password-toggle" onclick="togglePassword('new-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirm New Password</label>
+                        <div class="password-input">
+                            <input type="password" class="form-control" id="confirm-password" placeholder="Confirm new password">
+                            <button type="button" class="password-toggle" onclick="togglePassword('confirm-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="updatePassword()">
+                            <i class="fas fa-key"></i> Update Password
+                        </button>
+                    </div>
+                    
+                    <!-- Danger Zone -->
+                    <div class="danger-zone">
+                        <div class="danger-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Sign Out</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Sign out from all devices. You'll need to sign in again to access your account.
+                        </p>
+                        <button class="btn btn-danger" onclick="signOut()">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out Everywhere
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Preferences Section -->
+                <div id="preferences-section" class="settings-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-sliders-h"></i> Preferences</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="language-select">Language</label>
+                        <select class="form-control" id="language-select">
+                            <option value="en" selected>English</option>
+                          
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <i class="fas fa-save"></i>
+                                Auto-save Analyses
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="auto-save" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <i class="fas fa-lightbulb"></i>
+                                Show Tutorial Tips
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="show-tutorial">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="results-display">Results Display</label>
+                        <select class="form-control" id="results-display">
+                            <option value="detailed">Detailed View</option>
+                            <option value="compact" selected>Compact View</option>
+                            <option value="summary">Summary Only</option>
+                        </select>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="savePreferences()">
+                            <i class="fas fa-save"></i> Save Preferences
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+            initTextSize();
+            initTheme();
+        });
+        
+        function initTheme() {
+            const savedTheme = localStorage.getItem('textguard_theme') || 'dark';
+            applyTheme(savedTheme);
+        }
+        
+        function applyTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            
+            // Update active theme option
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-theme') === theme) {
+                    option.classList.add('active');
+                }
+            });
+        }
+        
+        function setTheme(theme) {
+            applyTheme(theme);
+            localStorage.setItem('textguard_theme', theme);
+            showNotification(`Theme set to ${theme}`, 'success');
+        }
+        
+        function showSection(sectionId) {
+            // Update active nav link
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`a[href="#${sectionId}"]`).classList.add('active');
+            
+            // Show selected section
+            document.querySelectorAll('.settings-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(`${sectionId}-section`).classList.add('active');
+        }
+        
+        function loadSettings() {
+            const userData = localStorage.getItem('textguard_user');
+            const authToken = localStorage.getItem('textguard_token');
+            
+            if (!userData || !authToken) {
+                // Don't redirect, just skip loading
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                
+                // Load profile settings
+                document.getElementById('profile-name').value = user.name || '';
+                document.getElementById('profile-email').value = user.email || '';
+                document.getElementById('profile-bio').value = user.profile?.bio || '';
+                document.getElementById('profile-location').value = user.profile?.location || '';
+                document.getElementById('profile-website').value = user.profile?.website || '';
+                
+                const fontSize = localStorage.getItem('textguard_fontsize') || 'medium';
+                document.querySelectorAll('.size-option').forEach(option => {
+                    option.classList.remove('active');
+                    const sizeText = option.querySelector('.size-label').textContent.toLowerCase();
+                    if (sizeText === fontSize) {
+                        option.classList.add('active');
+                    }
+                });
+                
+                document.getElementById('animations').checked = localStorage.getItem('textguard_animations') !== 'false';
+                
+                // Load notification settings
+                const settings = user.settings || {};
+                document.getElementById('email-notifications').checked = settings.emailNotifications !== false;
+                document.getElementById('analysis-complete').checked = settings.notifications !== false;
+                document.getElementById('weekly-reports').checked = settings.weeklyReports || false;
+                document.getElementById('product-updates').checked = settings.productUpdates || false;
+                
+                // Load preferences
+                document.getElementById('language-select').value = settings.language || 'en';
+                document.getElementById('auto-save').checked = settings.autoSave !== false;
+                document.getElementById('show-tutorial').checked = settings.showTutorial || false;
+                document.getElementById('results-display').value = settings.resultsDisplay || 'compact';
+                
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                showNotification('Failed to load settings', 'error');
+            }
+        }
+        
+        function initTextSize() {
+            const fontSize = localStorage.getItem('textguard_fontsize') || 'medium';
+            document.body.style.fontSize = fontSize === 'small' ? '0.875rem' : 
+                                         fontSize === 'large' ? '1.125rem' : '1rem';
+        }
+        
+        function setTextSize(size) {
+            // Update UI
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.closest('.size-option').classList.add('active');
+            
+            // Apply immediately
+            const fontSize = size === 'small' ? '0.875rem' : 
+                           size === 'large' ? '1.125rem' : '1rem';
+            document.body.style.fontSize = fontSize;
+            
+            // Save to localStorage
+            localStorage.setItem('textguard_fontsize', size);
+            showNotification(`Text size set to ${size}`, 'success');
+        }
+        
+        function saveProfileSettings() {
+            const userData = localStorage.getItem('textguard_user');
+            const authToken = localStorage.getItem('textguard_token');
+            
+            if (!userData || !authToken) {
+                showNotification('Please sign in to save settings', 'error');
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                
+                // Update user data
+                const name = document.getElementById('profile-name').value.trim();
+                const email = document.getElementById('profile-email').value.trim();
+                
+                if (!name) {
+                    showNotification('Name cannot be empty', 'error');
+                    return;
+                }
+                
+                if (!validateEmail(email)) {
+                    showNotification('Please enter a valid email', 'error');
+                    return;
+                }
+                
+                user.name = name;
+                
+                if (email !== user.email) {
+                    user.email = email;
+                    user.verified = false;
+                }
+                
+                if (!user.profile) user.profile = {};
+                user.profile.bio = document.getElementById('profile-bio').value.trim();
+                user.profile.location = document.getElementById('profile-location').value.trim();
+                user.profile.website = document.getElementById('profile-website').value.trim();
+                
+                // Save to localStorage
+                localStorage.setItem('textguard_user', JSON.stringify(user));
+                
+                // Update users list
+                const users = JSON.parse(localStorage.getItem('textguard_users') || '[]');
+                const userIndex = users.findIndex(u => u.id === user.id);
+                if (userIndex !== -1) {
+                    users[userIndex] = user;
+                    localStorage.setItem('textguard_users', JSON.stringify(users));
+                }
+                
+                showNotification('Profile settings saved!', 'success');
+                
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                showNotification('Failed to save settings', 'error');
+            }
+        }
+        
+        function saveAppearanceSettings() {
+            const animations = document.getElementById('animations').checked;
+            localStorage.setItem('textguard_animations', animations);
+            
+            // Save to user settings
+            const userData = localStorage.getItem('textguard_user');
+            if (userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    if (!user.settings) user.settings = {};
+                    user.settings.animations = animations;
+                    localStorage.setItem('textguard_user', JSON.stringify(user));
+                } catch (error) {
+                    console.error('Error saving appearance:', error);
+                }
+            }
+            
+            showNotification('Appearance settings applied!', 'success');
+        }
+        
+        function saveNotificationSettings() {
+            const settings = {
+                emailNotifications: document.getElementById('email-notifications').checked,
+                notifications: document.getElementById('analysis-complete').checked,
+                weeklyReports: document.getElementById('weekly-reports').checked,
+                productUpdates: document.getElementById('product-updates').checked
+            };
+            
+            saveUserSettings(settings);
+            showNotification('Notification preferences saved!', 'success');
+        }
+        
+        function updatePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // VALIDATION CHECKS
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('Please fill all password fields', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                showNotification('Password must be at least 8 characters', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (currentPassword === newPassword) {
+                showNotification('New password must be different from current password', 'error');
+                return;
+            }
+            
+            const userData = localStorage.getItem('textguard_user');
+            if (!userData) {
+                showNotification('User not found', 'error');
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                const hashedCurrentPassword = hashPassword(currentPassword);
+                
+                // VERIFY CURRENT PASSWORD
+                if (hashedCurrentPassword !== user.password) {
+                    showNotification('Current password is incorrect', 'error');
+                    document.getElementById('current-password').value = '';
+                    return;
+                }
+                
+                // UPDATE PASSWORD with new hash
+                const hashedNewPassword = hashPassword(newPassword);
+                user.password = hashedNewPassword;
+                
+                // SAVE UPDATED USER DATA
+                localStorage.setItem('textguard_user', JSON.stringify(user));
+                
+                // Update user in users list for login verification
+                const users = JSON.parse(localStorage.getItem('textguard_users') || '[]');
+                const userIndex = users.findIndex(u => u.id === user.id);
+                if (userIndex !== -1) {
+                    users[userIndex] = user;
+                    localStorage.setItem('textguard_users', JSON.stringify(users));
+                }
+                
+                // Clear password input fields
+                document.getElementById('current-password').value = '';
+                document.getElementById('new-password').value = '';
+                document.getElementById('confirm-password').value = '';
+                
+                // Show success message
+                showNotification('✓ Password updated successfully! You will be signed out and must sign in again with your new password.', 'success');
+                
+
+                setTimeout(() => {
+                    localStorage.removeItem('textguard_token');
+                    localStorage.removeItem('textguard_user');
+                    window.location.href = 'index.html';
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Error updating password:', error);
+                showNotification('Failed to update password', 'error');
+            }
+        }
+        
+        function savePreferences() {
+            const settings = {
+                language: document.getElementById('language-select').value,
+                autoSave: document.getElementById('auto-save').checked,
+                showTutorial: document.getElementById('show-tutorial').checked,
+                resultsDisplay: document.getElementById('results-display').value
+            };
+            
+            saveUserSettings(settings);
+            showNotification('Preferences saved!', 'success');
+        }
+        
+        function saveUserSettings(newSettings) {
+            const userData = localStorage.getItem('textguard_user');
+            if (!userData) return;
+            
+            try {
+                const user = JSON.parse(userData);
+                if (!user.settings) user.settings = {};
+                
+                Object.assign(user.settings, newSettings);
+                localStorage.setItem('textguard_user', JSON.stringify(user));
+                
+            } catch (error) {
+                console.error('Error saving settings:', error);
+            }
+        }
+        
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const button = field.parentElement.querySelector('.password-toggle');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                button.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                field.type = 'password';
+                button.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+        
+        function signOut() {
+            if (confirm('Are you sure you want to sign out from all devices?')) {
+                localStorage.removeItem('textguard_token');
+                localStorage.removeItem('textguard_user');
+                showNotification('Signed out successfully', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            }
+        }
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function hashPassword(password) {
+            return btoa(password).split('').reverse().join('');
+        }
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--error)' : type === 'warning' ? 'var(--warning)' : 'var(--primary)'};
+                color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                z-index: 3000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+    </script>
+
+
+ <script>
+            // ===========================================
+            // FLUID EFFECT - Exact React Component Conversion
+            // ===========================================
+
+            let fluidAnimationId = null;
+            let fluidConfig = {
+                SIM_RESOLUTION: 128,
+                DYE_RESOLUTION: 1440,
+                CAPTURE_RESOLUTION: 512,
+                DENSITY_DISSIPATION: 3.5,
+                VELOCITY_DISSIPATION: 2,
+                PRESSURE: 0.1,
+                PRESSURE_ITERATIONS: 20,
+                CURL: 3,
+                SPLAT_RADIUS: 0.2,
+                SPLAT_FORCE: 6000,
+                SHADING: true,
+                COLOR_UPDATE_SPEED: 10,
+                BACK_COLOR: { r: 0.5, g: 0, b: 0 },
+                TRANSPARENT: true
+            };
+
+            // Initialize when page loads
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('Loading fluid effect...');
+                setTimeout(initFluidEffect, 500);
+            });
+
+            function initFluidEffect() {
+                const canvas = document.getElementById('fluid');
+                if (!canvas) {
+                    console.error('Fluid canvas not found');
+                    return;
+                }
+
+                // Set canvas size
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                window.addEventListener('resize', function () {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+
+                // Get WebGL context
+                const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (!gl) {
+                    console.error('WebGL not supported');
+                    // Fallback to canvas 2D effect
+                    initCanvasFallback();
+                    return;
+                }
+
+                console.log('WebGL initialized, starting fluid simulation...');
+                startWebGLFluid(gl, canvas);
+            }
+
+            function initCanvasFallback() {
+                console.log('Using Canvas 2D fallback');
+                const canvas = document.getElementById('fluid');
+                const ctx = canvas.getContext('2d');
+
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                window.addEventListener('resize', function () {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+
+                // Simple colorful particles
+                const particles = [];
+                const maxParticles = 100;
+
+                // Mouse tracking
+                let mouseX = canvas.width / 2;
+                let mouseY = canvas.height / 2;
+
+                window.addEventListener('mousemove', function (e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+
+                    // Create particles on mouse move
+                    for (let i = 0; i < 3; i++) {
+                        if (particles.length >= maxParticles) {
+                            particles.shift();
+                        }
+
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = 1 + Math.random() * 2;
+                        const vx = Math.cos(angle) * speed;
+                        const vy = Math.sin(angle) * speed;
+
+                        // Generate vibrant colors
+                        const hue = Math.floor(Math.random() * 360);
+                        const color = `hsla(${hue}, 100%, 70%, 0.3)`;
+
+                        particles.push({
+                            x: mouseX,
+                            y: mouseY,
+                            vx: vx,
+                            vy: vy,
+                            radius: 2 + Math.random() * 3,
+                            color: color,
+                            life: 1.0,
+                            decay: 0.02
+                        });
+                    }
+                });
+
+                // Animation loop
+                function animate() {
+                    // Clear with fade effect
+                    ctx.fillStyle = 'rgba(12, 12, 25, 0.1)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    // Update and draw particles
+                    for (let i = particles.length - 1; i >= 0; i--) {
+                        const p = particles[i];
+
+                        p.x += p.vx;
+                        p.y += p.vy;
+
+                        // Add some randomness
+                        p.vx += (Math.random() - 0.5) * 0.2;
+                        p.vy += (Math.random() - 0.5) * 0.2;
+
+                        // Friction
+                        p.vx *= 0.98;
+                        p.vy *= 0.98;
+
+                        // Gravity
+                        p.vy += 0.05;
+
+                        // Life decay
+                        p.life -= p.decay;
+                        p.radius *= 0.99;
+
+                        // Remove dead particles
+                        if (p.life <= 0 || p.radius <= 0.1) {
+                            particles.splice(i, 1);
+                            continue;
+                        }
+
+                        // Draw particle
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color.replace('0.3', p.life * 0.3);
+                        ctx.fill();
+
+                        // Draw glow
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color.replace('0.3', p.life * 0.1);
+                        ctx.fill();
+                    }
+
+                    fluidAnimationId = requestAnimationFrame(animate);
+                }
+
+                // Start animation
+                animate();
+
+                console.log('Canvas 2D fluid effect started');
+            }
+
+            function startWebGLFluid(gl, canvas) {
+                console.log('Starting WebGL fluid simulation...');
+
+                // Simplified WebGL shader for colorful fluid
+                const vertexShader = `attribute vec2 aPosition;
+        void main() {
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }`;
+
+                const fragmentShader = `precision mediump float;
+        uniform float time;
+        uniform vec2 resolution;
+        uniform vec2 mouse;
+        
+        void main() {
+            vec2 uv = gl_FragCoord.xy / resolution;
+            vec2 mouseUV = mouse / resolution;
+            
+            // Create flowing colors
+            float r = 0.5 + 0.3 * sin(time * 0.5 + uv.x * 3.0 + uv.y * 2.0);
+            float g = 0.5 + 0.3 * sin(time * 0.7 + uv.x * 2.0 + uv.y * 3.0);
+            float b = 0.5 + 0.3 * sin(time * 0.9 + uv.x * 4.0 + uv.y * 2.0);
+            
+            // Add mouse interaction
+            float dist = distance(uv, mouseUV);
+            float mouseEffect = 0.05 / max(dist, 0.05);
+            
+            r += mouseEffect * sin(time * 0.8);
+            g += mouseEffect * sin(time * 0.6);
+            b += mouseEffect * sin(time * 0.7);
+            
+            gl_FragColor = vec4(r * 0.3, g * 0.3, b * 0.3, 0.2);
+        }`;
+
+                // Create shader program
+                const program = gl.createProgram();
+                const vs = gl.createShader(gl.VERTEX_SHADER);
+                const fs = gl.createShader(gl.FRAGMENT_SHADER);
+
+                gl.shaderSource(vs, vertexShader);
+                gl.shaderSource(fs, fragmentShader);
+                gl.compileShader(vs);
+                gl.compileShader(fs);
+                gl.attachShader(program, vs);
+                gl.attachShader(program, fs);
+                gl.linkProgram(program);
+                gl.useProgram(program);
+
+                // Create vertices for fullscreen quad
+                const vertices = new Float32Array([
+                    -1, -1, 1, -1, -1, 1,
+                    1, -1, 1, 1, -1, 1
+                ]);
+
+                const buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+                const positionLocation = gl.getAttribLocation(program, "aPosition");
+                gl.enableVertexAttribArray(positionLocation);
+                gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+                // Get uniform locations
+                const timeLocation = gl.getUniformLocation(program, "time");
+                const resolutionLocation = gl.getUniformLocation(program, "resolution");
+                const mouseLocation = gl.getUniformLocation(program, "mouse");
+
+                // Mouse tracking
+                let mouseX = 0;
+                let mouseY = 0;
+
+                window.addEventListener('mousemove', function (e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                // Animation loop
+                let time = 0;
+                function animate() {
+                    time += 0.01;
+
+                    // Set uniforms
+                    gl.uniform1f(timeLocation, time);
+                    gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                    gl.uniform2f(mouseLocation, mouseX, canvas.height - mouseY);
+
+                    // Clear
+                    gl.clearColor(0.0, 0.0, 0.0, 0.0);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+
+                    // Draw
+                    gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+                    fluidAnimationId = requestAnimationFrame(animate);
+                }
+
+                // Start animation
+                animate();
+
+                console.log('WebGL fluid simulation running');
+            }
+
+            // Clean up on page unload
+            window.addEventListener('beforeunload', function () {
+                if (fluidAnimationId) {
+                    cancelAnimationFrame(fluidAnimationId);
+                }
+            });
+        </script>
+
+</body>
+</html>

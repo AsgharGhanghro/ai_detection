@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server/app.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "client/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/health",
+      "dest": "/server/app.py"
+    },
+    {
+      "src": "/evaluate",
+      "dest": "/server/app.py"
+    },
+    {
+      "src": "/transcribe",
+      "dest": "/server/app.py"
+    },
+    {
+      "src": "/upload_pdf",
+      "dest": "/server/app.py"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/app.py"
+    },
+    {
+      "src": "/auth/google",
+      "dest": "/server/app.py"
+    },
+    {
+      "src": "/auth/google/callback",
+      "dest": "/server/app.py"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/client/static/$1"
+    },
+    {
+      "src": "/(.*)\\.(css|js|png|jpg|jpeg|svg|ico|woff2?|json|map)",
+      "dest": "/client/$1.$2"
+    },
+    {
+      "src": "/dashboard",
+      "dest": "/client/index.html"
+    },
+    {
+      "src": "/profile",
+      "dest": "/client/profile.html"
+    },
+    {
+      "src": "/history",
+      "dest": "/client/history.html"
+    },
+    {
+      "src": "/settings",
+      "dest": "/client/settings.html"
+    },
+    {
+      "src": "/members",
+      "dest": "/client/member.html"
+    },
+    {
+      "src": "/",
+      "dest": "/client/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/offline.html"
+    }
+  ]
+}

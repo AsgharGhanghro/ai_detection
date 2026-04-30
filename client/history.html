@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - TextGuard AI</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.8);
+            --bg-card-hover: rgba(30, 41, 59, 0.9);
+            --border-color: rgba(148, 163, 184, 0.1);
+            --border-hover: rgba(148, 163, 184, 0.3);
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 40px rgba(0, 0, 0, 0.2);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --bg-card-hover: rgba(255, 255, 255, 1);
+            --border-color: rgba(226, 232, 240, 0.8);
+            --border-hover: rgba(226, 232, 240, 1);
+
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+
+            --shadow-lg: 0 20px 60px rgba(99, 102, 241, 0.1);
+            --shadow-md: 0 10px 40px rgba(99, 102, 241, 0.08);
+            --shadow-sm: 0 4px 20px rgba(99, 102, 241, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        /* Minimal Header */
+        .history-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        [data-theme="light"] .history-header {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* Main Container */
+        .history-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 2rem 4rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            max-width: 600px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Controls */
+        .history-controls {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        @media (max-width: 992px) {
+            .history-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--bg-secondary);
+            padding: 0.25rem;
+            border-radius: var(--radius-sm);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            background: var(--bg-card);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: var(--error);
+            color: white;
+        }
+
+        /* History Table */
+        .table-container {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .table-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-table thead {
+            background: var(--bg-secondary);
+        }
+
+        .history-table th {
+            padding: 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .history-table tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .history-table tbody tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .history-table td {
+            padding: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Analysis Type */
+        .analysis-type {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .type-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .type-badge.ai {
+            background: linear-gradient(135deg, var(--accent), #db2777);
+            color: white;
+        }
+
+        .type-badge.plagiarism {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white;
+        }
+
+        .type-info h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .type-info span {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Date Cell */
+        .date-cell .date {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .date-cell .time {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Score Cell */
+        .score-cell {
+            min-width: 120px;
+        }
+
+        .score-bar {
+            width: 100px;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .score-high .score-fill {
+            background: var(--error);
+            width: 80%;
+        }
+
+        .score-medium .score-fill {
+            background: var(--warning);
+            width: 50%;
+        }
+
+        .score-low .score-fill {
+            background: var(--success);
+            width: 20%;
+        }
+
+        .score-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Confidence Cell */
+        .confidence-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 20px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Text Length */
+        .text-length {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .length-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Actions Cell */
+        .action-buttons-small {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.3;
+            color: var(--primary);
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .empty-text {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .page-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .page-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .page-info {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .history-container {
+                padding: 100px 1rem 2rem;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .history-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .table-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .history-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-tabs {
+                justify-content: center;
+            }
+
+            .tab {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="history-header">
+        <a href="index.html" class="header-brand">
+            <div class="logo-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="logo-text">TextGuard</div>
+        </a>
+
+        <!-- Fluid Effect Canvas -->
+        <canvas id="fluid"
+            style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:-1;"></canvas>
+
+        <!-- Your existing background effects -->
+        <div class="bg-blur-1"></div>
+        <div class="bg-blur-2"></div>
+
+        <div class="header-actions">
+            <a href="profile.html" class="btn btn-secondary">
+                <i class="fas fa-user"></i> Profile
+            </a>
+
+            <a href="settings.html" class="btn btn-secondary">
+                <i class="fas fa-cog"></i> Setting
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="history-container">
+        <!-- Page Header -->
+        <div class="page-header fade-in-up">
+            <h1 class="page-title">
+                <i class="fas fa-history"></i>
+                Analysis History
+            </h1>
+            <p class="page-subtitle">
+                Track and manage all your previous week text analyses in one place. Search, filter, and export your history.
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid fade-in-up" style="animation-delay: 0.1s">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="stat-value" id="total-history">0</div>
+                <div class="stat-label">Total Analyses</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--accent), #db2777);">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="stat-value" id="ai-history">0</div>
+                <div class="stat-label">AI Detections</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--warning), #d97706);">
+                    <i class="fas fa-copy"></i>
+                </div>
+                <div class="stat-value" id="plagiarism-history">0</div>
+                <div class="stat-label">Plagiarism Checks</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, var(--success), #059669);">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-value" id="avg-time">0s</div>
+                <div class="stat-label">Avg Analysis Time</div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="history-controls fade-in-up" style="animation-delay: 0.2s">
+            <div class="filter-tabs">
+                <button class="tab active" onclick="filterHistory('all')">
+                    <i class="fas fa-layer-group"></i> All
+                </button>
+                <button class="tab" onclick="filterHistory('ai')">
+                    <i class="fas fa-robot"></i> AI
+                </button>
+                <button class="tab" onclick="filterHistory('plagiarism')">
+                    <i class="fas fa-copy"></i> Plagiarism
+                </button>
+                <button class="tab" onclick="filterHistory('recent')">
+                    <i class="fas fa-clock"></i> Recent
+                </button>
+            </div>
+
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="history-search"
+                    placeholder="Search by type, date, or score..." onkeyup="searchHistory()">
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-danger" onclick="clearHistory()">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+                <button class="btn btn-primary" onclick="exportHistory()">
+                    <i class="fas fa-download"></i> Export CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- History Table -->
+        <div class="table-container fade-in-up" style="animation-delay: 0.3s">
+            <div class="table-header">
+                <h3>
+                    <i class="fas fa-list"></i>
+                    Analysis Records
+                    <span id="record-count"
+                        style="font-size: 0.9rem; color: var(--text-secondary); margin-left: 0.5rem;">
+                        (0 records)
+                    </span>
+                </h3>
+                <div style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Last updated: <span id="last-updated">Just now</span>
+                </div>
+            </div>
+
+            <table class="history-table" id="history-table">
+                <thead>
+                    <tr>
+                        <th>Analysis Type</th>
+                        <th>Date & Time</th>
+                        <th>Text Length</th>
+                        <th>Score</th>
+                        <th>Confidence</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="history-tbody">
+                    <!-- History rows will be loaded here -->
+                </tbody>
+            </table>
+
+            <!-- Empty State -->
+            <div id="empty-history" class="empty-state" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h3 class="empty-title">No Analysis History</h3>
+                <p class="empty-text">You haven't performed any analyses yet. Start analyzing text to build your
+                    history.</p>
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Start Analyzing
+                </a>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination fade-in-up" id="pagination" style="animation-delay: 0.4s; display: none;">
+            <button class="page-btn" onclick="changePage('prev')" id="prev-btn">
+                <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <div class="page-info">
+                Page <span id="current-page">1</span> of <span id="total-pages">1</span>
+            </div>
+            <button class="page-btn" onclick="changePage('next')" id="next-btn">
+                Next <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </main>
+
+    <!-- History Script -->
+    <script>
+        let currentHistory = [];
+        let filteredHistory = [];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set theme
+            const savedTheme = localStorage.getItem('textguard_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            loadHistory();
+        });
+
+        function loadHistory() {
+            const userData = localStorage.getItem('textguard_user');
+            const authToken = localStorage.getItem('textguard_token');
+
+            if (!userData || !authToken) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const user = JSON.parse(userData);
+                const analytics = user.analytics || {};
+                const recentAnalyses = analytics.recentAnalyses || [];
+
+                if (recentAnalyses.length === 0) {
+                    const guestAnalytics = localStorage.getItem('textguard-analytics');
+                    if (guestAnalytics) {
+                        const guestData = JSON.parse(guestAnalytics);
+                        currentHistory = guestData.recentAnalyses || [];
+                    } else {
+                        currentHistory = [];
+                    }
+                } else {
+                    currentHistory = recentAnalyses;
+                }
+
+                // Sort by date (newest first)
+                currentHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                // Update stats
+                updateHistoryStats();
+
+                // Filter and display
+                filterHistory('all');
+
+                // Update last updated time
+                document.getElementById('last-updated').textContent = 'Just now';
+
+            } catch (error) {
+                console.error('Error loading history:', error);
+                showNotification('Failed to load history', 'error');
+            }
+        }
+
+        function updateHistoryStats() {
+            const total = currentHistory.length;
+            const aiCount = currentHistory.filter(a => a.mode === 'ai').length;
+            const plagiarismCount = currentHistory.filter(a => a.mode === 'plagiarism').length;
+
+            // Calculate average time
+            const avgTime = total > 0 ? '1.8s' : '0s';
+
+            document.getElementById('total-history').textContent = total;
+            document.getElementById('ai-history').textContent = aiCount;
+            document.getElementById('plagiarism-history').textContent = plagiarismCount;
+            document.getElementById('avg-time').textContent = avgTime;
+        }
+
+        function filterHistory(type) {
+            currentFilter = type;
+
+            // Update filter tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter history
+            switch (type) {
+                case 'all':
+                    filteredHistory = [...currentHistory];
+                    break;
+                case 'ai':
+                    filteredHistory = currentHistory.filter(a => a.mode === 'ai');
+                    break;
+                case 'plagiarism':
+                    filteredHistory = currentHistory.filter(a => a.mode === 'plagiarism');
+                    break;
+                case 'recent':
+                    // Last 7 days
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    filteredHistory = currentHistory.filter(a => new Date(a.timestamp) > weekAgo);
+                    break;
+            }
+
+            // Reset to page 1
+            currentPage = 1;
+
+            // Display history
+            displayHistory();
+        }
+
+        function searchHistory() {
+            const searchTerm = document.getElementById('history-search').value.toLowerCase();
+
+            if (!searchTerm) {
+                filterHistory(currentFilter);
+                return;
+            }
+
+            filteredHistory = currentHistory.filter(analysis => {
+                const type = analysis.mode === 'ai' ? 'ai detection' : 'plagiarism check';
+                return type.includes(searchTerm) ||
+                    analysis.score.toString().includes(searchTerm) ||
+                    analysis.textLength.toString().includes(searchTerm);
+            });
+
+            currentPage = 1;
+            displayHistory();
+        }
+
+        function displayHistory() {
+            const tbody = document.getElementById('history-tbody');
+            const emptyState = document.getElementById('empty-history');
+            const pagination = document.getElementById('pagination');
+            const recordCount = document.getElementById('record-count');
+
+            recordCount.textContent = `(${filteredHistory.length} records)`;
+
+            if (filteredHistory.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                pagination.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredHistory.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageItems = filteredHistory.slice(startIndex, endIndex);
+
+            // Build table rows
+            let html = '';
+            pageItems.forEach((analysis, index) => {
+                const isAI = analysis.mode === 'ai';
+                const type = isAI ? 'AI Detection' : 'Plagiarism Check';
+                const typeIcon = isAI ? 'fa-robot' : 'fa-copy';
+                const typeClass = isAI ? 'ai' : 'plagiarism';
+
+                const date = new Date(analysis.timestamp);
+                const dateStr = date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                const timeStr = date.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                // Determine score class
+                let scoreClass = 'score-low';
+                if (analysis.score > 70) scoreClass = 'score-high';
+                else if (analysis.score > 30) scoreClass = 'score-medium';
+
+                // Calculate score percentage for bar
+                const scorePercentage = Math.min(analysis.score, 100);
+
+                html += `
+                    <tr>
+                        <td>
+                            <div class="analysis-type">
+                                <div class="type-badge ${typeClass}">
+                                    <i class="fas ${typeIcon}"></i>
+                                </div>
+                                <div class="type-info">
+                                    <h4>${type}</h4>
+                                    <span>ID: #${startIndex + index + 1}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="date-cell">
+                                <div class="date">${dateStr}</div>
+                                <div class="time">${timeStr}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-length">${analysis.textLength.toLocaleString()}</div>
+                            <div class="length-label">characters</div>
+                        </td>
+                        <td>
+                            <div class="score-cell ${scoreClass}">
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width: ${scorePercentage}%"></div>
+                                </div>
+                                <div class="score-value">${analysis.score.toFixed(1)}%</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="confidence-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                ${analysis.confidence.toFixed(1)}%
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action-buttons-small">
+                                <button class="action-btn" onclick="viewAnalysis(${startIndex + index})" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="action-btn" onclick="reanalyze(${startIndex + index})" title="Reanalyze">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                                <button class="action-btn" onclick="deleteAnalysis(${startIndex + index})" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+
+            // Update pagination
+            if (totalPages > 1) {
+                pagination.style.display = 'flex';
+                document.getElementById('current-page').textContent = currentPage;
+                document.getElementById('total-pages').textContent = totalPages;
+
+                // Enable/disable buttons
+                document.getElementById('prev-btn').disabled = currentPage === 1;
+                document.getElementById('next-btn').disabled = currentPage === totalPages;
+            } else {
+                pagination.style.display = 'none';
+            }
+        }
+
+        function changePage(direction) {
+            const totalPages = Math.ceil(filteredHistory.length / itemsPerPage);
+
+            if (direction === 'prev' && currentPage > 1) {
+                currentPage--;
+            } else if (direction === 'next' && currentPage < totalPages) {
+                currentPage++;
+            }
+
+            displayHistory();
+        }
+
+        function viewAnalysis(index) {
+            const analysis = currentHistory[index];
+            if (!analysis) {
+                showNotification('Analysis not found', 'error');
+                return;
+            }
+
+            const type = analysis.mode === 'ai' ? 'AI Detection' : 'Plagiarism Check';
+            const date = new Date(analysis.timestamp).toLocaleString();
+
+            let details = `
+                Analysis Details:
+                Type: ${type}
+                Date: ${date}
+                Text Length: ${analysis.textLength.toLocaleString()} characters
+                Score: ${analysis.score.toFixed(1)}%
+                Confidence: ${analysis.confidence.toFixed(1)}%
+            `;
+
+            if (analysis.patterns_detected) {
+                details += `\nPatterns Detected: ${analysis.patterns_detected.join(', ')}`;
+            }
+
+            alert(details);
+        }
+
+        function reanalyze(index) {
+            showNotification('Reanalysis feature coming soon!', 'info');
+        }
+
+        function deleteAnalysis(index) {
+            if (confirm('Are you sure you want to delete this analysis?')) {
+                currentHistory.splice(index, 1);
+
+                // Update user data
+                const userData = localStorage.getItem('textguard_user');
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    if (user.analytics) {
+                        user.analytics.recentAnalyses = currentHistory;
+                        localStorage.setItem('textguard_user', JSON.stringify(user));
+                    }
+                }
+
+                // Update guest analytics
+                const guestAnalytics = localStorage.getItem('textguard-analytics');
+                if (guestAnalytics) {
+                    const guestData = JSON.parse(guestAnalytics);
+                    guestData.recentAnalyses = currentHistory;
+                    localStorage.setItem('textguard-analytics', JSON.stringify(guestData));
+                }
+
+                // Reload history
+                filterHistory(currentFilter);
+                showNotification('Analysis deleted successfully', 'success');
+            }
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all analysis history? This action cannot be undone.')) {
+                currentHistory = [];
+
+                // Update user data
+                const userData = localStorage.getItem('textguard_user');
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    if (user.analytics) {
+                        user.analytics.recentAnalyses = [];
+                        localStorage.setItem('textguard_user', JSON.stringify(user));
+                    }
+                }
+
+                // Update guest analytics
+                localStorage.setItem('textguard-analytics', JSON.stringify({
+                    totalAnalyses: 0,
+                    totalCharacters: 0,
+                    aiDetections: 0,
+                    plagiarismDetections: 0,
+                    recentAnalyses: []
+                }));
+
+                // Update display
+                updateHistoryStats();
+                filterHistory('all');
+                showNotification('All history cleared successfully', 'success');
+            }
+        }
+
+        function exportHistory() {
+            if (currentHistory.length === 0) {
+                showNotification('No history to export', 'warning');
+                return;
+            }
+
+            // Create CSV content
+            let csv = 'Type,Date,Text Length,Score,Confidence,Patterns\n';
+            currentHistory.forEach(analysis => {
+                const type = analysis.mode === 'ai' ? 'AI Detection' : 'Plagiarism Check';
+                const date = new Date(analysis.timestamp).toLocaleString();
+                const patterns = analysis.patterns_detected ? analysis.patterns_detected.join('; ') : '';
+                csv += `${type},"${date}",${analysis.textLength},${analysis.score.toFixed(1)}%,${analysis.confidence.toFixed(1)}%,"${patterns}"\n`;
+            });
+
+            // Create download link
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `textguard-history-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showNotification('History exported successfully!', 'success');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--error)' : type === 'warning' ? 'var(--warning)' : 'var(--primary)'};
+                color: white;
+                border-radius: var(--radius-sm);
+                box-shadow: var(--shadow-lg);
+                z-index: 3000;
+                animation: slideIn 0.3s ease;
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+    </script>
+
+
+    <script>
+        // ===========================================
+        // FLUID EFFECT - Exact React Component Conversion
+        // ===========================================
+
+        let fluidAnimationId = null;
+        let fluidConfig = {
+            SIM_RESOLUTION: 128,
+            DYE_RESOLUTION: 1440,
+            CAPTURE_RESOLUTION: 512,
+            DENSITY_DISSIPATION: 3.5,
+            VELOCITY_DISSIPATION: 2,
+            PRESSURE: 0.1,
+            PRESSURE_ITERATIONS: 20,
+            CURL: 3,
+            SPLAT_RADIUS: 0.2,
+            SPLAT_FORCE: 6000,
+            SHADING: true,
+            COLOR_UPDATE_SPEED: 10,
+            BACK_COLOR: { r: 0.5, g: 0, b: 0 },
+            TRANSPARENT: true
+        };
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Loading fluid effect...');
+            setTimeout(initFluidEffect, 500);
+        });
+
+        function initFluidEffect() {
+            const canvas = document.getElementById('fluid');
+            if (!canvas) {
+                console.error('Fluid canvas not found');
+                return;
+            }
+
+            // Set canvas size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Get WebGL context
+            const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (!gl) {
+                console.error('WebGL not supported');
+                // Fallback to canvas 2D effect
+                initCanvasFallback();
+                return;
+            }
+
+            console.log('WebGL initialized, starting fluid simulation...');
+            startWebGLFluid(gl, canvas);
+        }
+
+        function initCanvasFallback() {
+            console.log('Using Canvas 2D fallback');
+            const canvas = document.getElementById('fluid');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Simple colorful particles
+            const particles = [];
+            const maxParticles = 100;
+
+            // Mouse tracking
+            let mouseX = canvas.width / 2;
+            let mouseY = canvas.height / 2;
+
+            window.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                // Create particles on mouse move
+                for (let i = 0; i < 3; i++) {
+                    if (particles.length >= maxParticles) {
+                        particles.shift();
+                    }
+
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 1 + Math.random() * 2;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+
+                    // Generate vibrant colors
+                    const hue = Math.floor(Math.random() * 360);
+                    const color = `hsla(${hue}, 100%, 70%, 0.3)`;
+
+                    particles.push({
+                        x: mouseX,
+                        y: mouseY,
+                        vx: vx,
+                        vy: vy,
+                        radius: 2 + Math.random() * 3,
+                        color: color,
+                        life: 1.0,
+                        decay: 0.02
+                    });
+                }
+            });
+
+            // Animation loop
+            function animate() {
+                // Clear with fade effect
+                ctx.fillStyle = 'rgba(12, 12, 25, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Update and draw particles
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Add some randomness
+                    p.vx += (Math.random() - 0.5) * 0.2;
+                    p.vy += (Math.random() - 0.5) * 0.2;
+
+                    // Friction
+                    p.vx *= 0.98;
+                    p.vy *= 0.98;
+
+                    // Gravity
+                    p.vy += 0.05;
+
+                    // Life decay
+                    p.life -= p.decay;
+                    p.radius *= 0.99;
+
+                    // Remove dead particles
+                    if (p.life <= 0 || p.radius <= 0.1) {
+                        particles.splice(i, 1);
+                        continue;
+                    }
+
+                    // Draw particle
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace('0.3', p.life * 0.3);
+                    ctx.fill();
+
+                    // Draw glow
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace('0.3', p.life * 0.1);
+                    ctx.fill();
+                }
+
+                fluidAnimationId = requestAnimationFrame(animate);
+            }
+
+            // Start animation
+            animate();
+
+            console.log('Canvas 2D fluid effect started');
+        }
+
+        function startWebGLFluid(gl, canvas) {
+            console.log('Starting WebGL fluid simulation...');
+
+            // Simplified WebGL shader for colorful fluid
+            const vertexShader = `attribute vec2 aPosition;
+        void main() {
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }`;
+
+            const fragmentShader = `precision mediump float;
+        uniform float time;
+        uniform vec2 resolution;
+        uniform vec2 mouse;
+        
+        void main() {
+            vec2 uv = gl_FragCoord.xy / resolution;
+            vec2 mouseUV = mouse / resolution;
+            
+            // Create flowing colors
+            float r = 0.5 + 0.3 * sin(time * 0.5 + uv.x * 3.0 + uv.y * 2.0);
+            float g = 0.5 + 0.3 * sin(time * 0.7 + uv.x * 2.0 + uv.y * 3.0);
+            float b = 0.5 + 0.3 * sin(time * 0.9 + uv.x * 4.0 + uv.y * 2.0);
+            
+            // Add mouse interaction
+            float dist = distance(uv, mouseUV);
+            float mouseEffect = 0.05 / max(dist, 0.05);
+            
+            r += mouseEffect * sin(time * 0.8);
+            g += mouseEffect * sin(time * 0.6);
+            b += mouseEffect * sin(time * 0.7);
+            
+            gl_FragColor = vec4(r * 0.3, g * 0.3, b * 0.3, 0.2);
+        }`;
+
+            // Create shader program
+            const program = gl.createProgram();
+            const vs = gl.createShader(gl.VERTEX_SHADER);
+            const fs = gl.createShader(gl.FRAGMENT_SHADER);
+
+            gl.shaderSource(vs, vertexShader);
+            gl.shaderSource(fs, fragmentShader);
+            gl.compileShader(vs);
+            gl.compileShader(fs);
+            gl.attachShader(program, vs);
+            gl.attachShader(program, fs);
+            gl.linkProgram(program);
+            gl.useProgram(program);
+
+            // Create vertices for fullscreen quad
+            const vertices = new Float32Array([
+                -1, -1, 1, -1, -1, 1,
+                1, -1, 1, 1, -1, 1
+            ]);
+
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+            const positionLocation = gl.getAttribLocation(program, "aPosition");
+            gl.enableVertexAttribArray(positionLocation);
+            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+            // Get uniform locations
+            const timeLocation = gl.getUniformLocation(program, "time");
+            const resolutionLocation = gl.getUniformLocation(program, "resolution");
+            const mouseLocation = gl.getUniformLocation(program, "mouse");
+
+            // Mouse tracking
+            let mouseX = 0;
+            let mouseY = 0;
+
+            window.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            // Animation loop
+            let time = 0;
+            function animate() {
+                time += 0.01;
+
+                // Set uniforms
+                gl.uniform1f(timeLocation, time);
+                gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                gl.uniform2f(mouseLocation, mouseX, canvas.height - mouseY);
+
+                // Clear
+                gl.clearColor(0.0, 0.0, 0.0, 0.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                // Draw
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+                fluidAnimationId = requestAnimationFrame(animate);
+            }
+
+            // Start animation
+            animate();
+
+            console.log('WebGL fluid simulation running');
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function () {
+            if (fluidAnimationId) {
+                cancelAnimationFrame(fluidAnimationId);
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>

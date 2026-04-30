@@ -1,0 +1,344 @@
+.marquee-3d-section {
+    background: linear-gradient(135deg, 
+        rgba(15, 15, 30, 0.95) 0%,
+        rgba(30, 30, 60, 0.85) 100%
+    );
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    padding: 2rem;
+    margin: 4rem 0;
+    overflow: hidden;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1500px;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+}
+
+/* 3D Container */
+.marquee-3d-container {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    transform-style: preserve-3d;
+    animation: marquee-3d 40s linear infinite;
+    padding: 1rem;
+    will-change: transform;
+}
+
+/* Pause on hover */
+.marquee-3d-container:hover {
+    animation-play-state: paused;
+}
+
+/* 3D Card */
+.marquee-3d-card {
+    flex: 0 0 auto;
+    width: 340px;
+    height: 260px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 20px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 3D effect on card */
+.marquee-3d-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(99, 102, 241, 0.1) 0%,
+        rgba(139, 92, 246, 0.05) 100%
+    );
+    border-radius: 20px;
+    z-index: -1;
+    transform: translateZ(-10px);
+}
+
+.marquee-3d-card:hover {
+    transform: translateZ(50px) rotateX(5deg) rotateY(5deg);
+    border-color: #6366f1;
+    box-shadow: 
+        0 40px 80px rgba(99, 102, 241, 0.3),
+        0 0 0 1px rgba(99, 102, 241, 0.1) inset;
+}
+
+/* Card Icon */
+.marquee-3d-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: white;
+    transform: translateZ(20px);
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+}
+
+.marquee-3d-card:hover .marquee-3d-icon {
+    transform: translateZ(40px) scale(1.1);
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+}
+
+/* Card Content */
+.marquee-3d-content {
+    transform: translateZ(10px);
+    transition: all 0.3s ease;
+}
+
+.marquee-3d-card:hover .marquee-3d-content {
+    transform: translateZ(30px);
+}
+
+.marquee-3d-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+}
+
+.marquee-3d-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Animation */
+@keyframes marquee-3d {
+    0% {
+        transform: translateX(0) translateZ(0);
+    }
+    100% {
+        transform: translateX(calc(-50% - 1rem)) translateZ(0);
+    }
+}
+
+/* Section Header */
+.marquee-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+
+.marquee-header h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+}
+
+.marquee-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* 3D Decorative Elements */
+.marquee-3d-decor {
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.decor-1 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    top: -100px;
+    left: -100px;
+    border-radius: 50%;
+    filter: blur(20px);
+}
+
+.decor-2 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+    bottom: -150px;
+    right: -150px;
+    border-radius: 50%;
+    filter: blur(30px);
+}
+
+
+
+.marquee-3d-container:hover ~ .marquee-progress .progress-bar {
+    animation-play-state: paused;
+}
+
+
+/* Pause Indicator */
+.pause-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.marquee-3d-container:hover + .pause-indicator {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .marquee-3d-card {
+        width: 280px;
+        height: 230px;
+        padding: 1.5rem;
+    }
+    
+    .marquee-3d-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.75rem;
+    }
+    
+    .marquee-3d-title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .marquee-3d-section {
+        padding: 1.5rem;
+        min-height: 300px;
+    }
+    
+    .marquee-3d-card {
+        width: 250px;
+        height: 200px;
+        padding: 1.25rem;
+    }
+    
+    .marquee-header h2 {
+        font-size: 2rem;
+    }
+    
+    .marquee-3d-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .marquee-3d-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .marquee-3d-desc {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .marquee-3d-section {
+        padding: 1rem;
+        border-radius: 20px;
+    }
+    
+    .marquee-3d-card {
+        width: 220px;
+        height: 180px;
+        padding: 1rem;
+    }
+    
+    .marquee-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    .marquee-header p {
+        font-size: 1rem;
+    }
+    
+    @keyframes marquee-3d {
+        0% {
+            transform: translateX(0) translateZ(0);
+        }
+        100% {
+            transform: translateX(calc(-100% - 2rem)) translateZ(0);
+        }
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .marquee-3d-container {
+        animation: marquee-3d 60s linear infinite;
+    }
+    
+    .progress-bar {
+        animation: progress-animation 60s linear infinite;
+    }
+    
+    .marquee-3d-card:active {
+        transform: translateZ(30px) scale(0.98);
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .marquee-3d-container {
+        animation: none;
+        justify-content: center;
+        width: 100%;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .progress-bar {
+        animation: none;
+        width: 100%;
+    }
+    
+    .marquee-3d-card {
+        flex: 0 0 calc(50% - 0.5rem);
+        margin-bottom: 1rem;
+    }
+}

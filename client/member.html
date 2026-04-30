@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Members - TextGuard AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* THEME VARIABLES - Same as main app */
+        :root {
+
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --primary-pro: #f4f4f4;
+
+            /* Dark theme colors */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.7);
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-tertiary: #64748b;
+
+            --border-color: rgba(148, 163, 184, 0.1);
+            --border-light: rgba(148, 163, 184, 0.05);
+            --border-dark: rgba(148, 163, 184, 0.2);
+
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Light Theme Override */
+        :root[data-theme="light"] {
+            /* Light theme colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-tertiary: #94a3b8;
+
+            --border-color: #e2e8f0;
+            --border-light: #f1f5f9;
+            --border-dark: #cbd5e1;
+
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.2);
+
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary) !important;
+            color: var(--text-primary) !important;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* MAIN CONTAINER - Same as privacy.html */
+        .member-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary);
+            transition: background 0.3s ease;
+        }
+
+        /* HEADER - Same style as privacy.html */
+        .member-header {
+            text-align: center;
+
+        }
+
+        .member-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .member-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: -1rem;
+            transition: color 0.3s ease;
+        }
+
+        /* MAIN LAYOUT - Keeping your original card stack system */
+        .members-stack-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3.5rem;
+            align-items: center;
+            min-height: calc(100vh - 180px);
+            padding: 2.5rem 0;
+        }
+
+        /* LEFT: Description - Keeping your original text formatting */
+        .member-description-side {
+            padding-right: 1.5rem;
+        }
+
+        .member-brief {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .member-brief.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .founder-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* TEXT FORMATTING - Keeping your exact text styles */
+        .member-name {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 0.375rem;
+            line-height: 1.1;
+            transition: color 0.3s ease;
+        }
+
+        .member-role {
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .member-tagline {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+            transition: color 0.3s ease;
+        }
+
+        /* Stats Grid - Keeping your exact layout */
+        .member-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .stat-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 10px;
+            padding: 0.9rem 0.75rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .stat-bar {
+            width: 100%;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.125rem;
+            font-weight: 900;
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        /* Show Details Button - Keeping your button */
+        .show-details-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .show-details-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+        }
+
+        /* RIGHT: Card Stack - KEEPING YOUR EXACT CARD STACK SYSTEM */
+        .member-cards-side {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+            position: relative;
+        }
+
+        .members-card-stack {
+            position: relative;
+            width: 500px;
+            height: 440px;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .member-card-stack-item {
+            position: absolute;
+            width: 105%;
+            height: 118%;
+            cursor: grab;
+            touch-action: none;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: 50% 85%;
+        }
+
+        .member-card-stack-item.dragging {
+            cursor: grabbing;
+            z-index: 10000 !important;
+            transition: none;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(1.05) contrast(1.08);
+        }
+
+        .founder-ribbon {
+            position: absolute;
+            top: 16px;
+            right: -30px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 0.3rem 2.5rem;
+            font-size: 0.65rem;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            transform: rotate(45deg);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+
+        .card-hover-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .member-card-stack-item:hover .card-hover-overlay {
+            opacity: .5;
+        }
+
+        .card-overlay-name {
+            color: white;
+            font-size: 1.375rem;
+            font-weight: 900;
+            margin-bottom: 0.25rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-overlay-role {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.8125rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Indicators - Keeping your dots */
+        .card-indicators {
+            display: flex;
+            gap: 0.65rem;
+            margin-top: 4rem;
+        }
+
+        .indicator-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background: var(--primary);
+            transform: scale(1.3);
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.8);
+        }
+
+        /* DETAILS MODAL - Keeping your exact modal structure */
+        .details-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            padding: 2rem;
+        }
+
+        .details-modal.active {
+            display: flex;
+        }
+
+        .details-modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            width: 90vw;
+            max-width: 850px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: background 0.3s ease;
+        }
+
+        .details-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: none;
+            color: var(--primary);
+            font-size: 1.375rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .details-close:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .details-header {
+            margin-bottom: 1.75rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 2px solid var(--glass-border);
+        }
+
+        .details-header h3 {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+            transition: color 0.3s ease;
+        }
+
+        .details-header .role {
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .detail-section {
+            margin-bottom: 1.75rem;
+        }
+
+        .detail-section h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.875rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .detail-section h4 i {
+            color: var(--primary);
+        }
+
+        .detail-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+            line-height: 1.5;
+            transition: color 0.3s ease;
+        }
+
+        .detail-list li i {
+            color: var(--primary);
+            margin-top: 0.15rem;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.65rem 1.25rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 9px;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Footer - Theme Responsive */
+        .footer {
+            background: var(--bg-secondary) !important;
+            border-top: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link {
+            color: var(--text-secondary) !important;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary) !important;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary) !important;
+            transition: color 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .members-stack-layout {
+                grid-template-columns: 1fr 380px;
+                gap: 3rem;
+            }
+
+            .members-card-stack {
+                width: 380px;
+                height: 440px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .members-stack-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .members-card-stack {
+                width: 100%;
+                max-width: 420px;
+                height: 480px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .member-container {
+                padding: 2rem 1.25rem;
+            }
+
+            .member-header h1 {
+                font-size: 2rem;
+            }
+
+            .member-name {
+                font-size: 1.75rem;
+            }
+
+            .members-card-stack {
+                max-width: 360px;
+                height: 420px;
+            }
+
+            .member-stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .members-card-stack {
+                max-width: 280px;
+                height: 350px;
+            }
+
+            .card-inner {
+                border-width: 3px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        .close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 30px;
+            font-weight: 300;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .close:hover {
+            background: linear-gradient(185deg, var(--primary-pro), var(--secondary));
+            transform: scale(1.15) rotate(90deg);
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: blue;
+        }
+
+        .close:active {
+            transform: scale(0.95) rotate(90deg);
+        }
+
+        .close:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Fluid Effect Canvas -->
+    <canvas id="fluid"
+        style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:0;"></canvas>
+
+    <!-- Your existing background effects -->
+    <div class="bg-blur-1"></div>
+    <div class="bg-blur-2"></div>
+
+    <button class="close" onclick="window.location.href='index.html'">&times;</button>
+    <!-- Team Members Content -->
+    <div class="member-container">
+        <div class="member-header">
+            <h1><i class="fas fa-users"></i> Meet Our Team</h1>
+            <p>The talented individuals behind TextGuard AI</p>
+        </div>
+
+
+        <!-- MAIN CONTENT - KEEPING YOUR EXACT CARD STACK SYSTEM -->
+        <div class="members-stack-layout">
+            <!-- Left: Brief Info -->
+            <div class="member-description-side">
+                <div id="member-brief" class="member-brief"></div>
+            </div>
+
+            <!-- Right: Card Stack -->
+            <div class="member-cards-side">
+                <div class="members-card-stack" id="membersCardStack"></div>
+                <div class="card-indicators" id="cardIndicators"></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: -2rem;">
+            <a href="index.html" class="back-button"
+                style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: rgba(99, 102, 241, 0.1); color: var(--primary); border: 1px solid var(--primary); border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none;">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <!-- DETAILS MODAL - Keeping your exact modal -->
+    <div id="details-modal" class="details-modal">
+        <div class="details-modal-content">
+            <button class="details-close" onclick="closeDetailsModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="details-content"></div>
+        </div>
+    </div>
+
+    <script>
+
+        let fluidAnimationId = null;
+        let fluidConfig = {
+            SIM_RESOLUTION: 128,
+            DYE_RESOLUTION: 1440,
+            CAPTURE_RESOLUTION: 512,
+            DENSITY_DISSIPATION: 3.5,
+            VELOCITY_DISSIPATION: 2,
+            PRESSURE: 0.1,
+            PRESSURE_ITERATIONS: 20,
+            CURL: 3,
+            SPLAT_RADIUS: 0.2,
+            SPLAT_FORCE: 6000,
+            SHADING: true,
+            COLOR_UPDATE_SPEED: 10,
+            BACK_COLOR: { r: 0.5, g: 0, b: 0 },
+            TRANSPARENT: true
+        };
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Loading fluid effect...');
+            setTimeout(initFluidEffect, 500);
+        });
+
+        function initFluidEffect() {
+            const canvas = document.getElementById('fluid');
+            if (!canvas) {
+                console.error('Fluid canvas not found');
+                return;
+            }
+
+            // Set canvas size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Get WebGL context
+            const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (!gl) {
+                console.error('WebGL not supported');
+                // Fallback to canvas 2D effect
+                initCanvasFallback();
+                return;
+            }
+
+            console.log('WebGL initialized, starting fluid simulation...');
+            startWebGLFluid(gl, canvas);
+        }
+
+        function initCanvasFallback() {
+            console.log('Using Canvas 2D fallback');
+            const canvas = document.getElementById('fluid');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Simple colorful particles
+            const particles = [];
+            const maxParticles = 100;
+
+            // Mouse tracking
+            let mouseX = canvas.width / 2;
+            let mouseY = canvas.height / 2;
+
+            window.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                // Create particles on mouse move
+                for (let i = 0; i < 3; i++) {
+                    if (particles.length >= maxParticles) {
+                        particles.shift();
+                    }
+
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 1 + Math.random() * 2;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+
+                    // Generate vibrant colors
+                    const hue = Math.floor(Math.random() * 360);
+                    const color = `hsla(${hue}, 100%, 70%, 0.3)`;
+
+                    particles.push({
+                        x: mouseX,
+                        y: mouseY,
+                        vx: vx,
+                        vy: vy,
+                        radius: 2 + Math.random() * 3,
+                        color: color,
+                        life: 1.0,
+                        decay: 0.02
+                    });
+                }
+            });
+
+            // Animation loop
+            function animate() {
+                // Clear with fade effect
+                ctx.fillStyle = 'rgba(12, 12, 25, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Update and draw particles
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Add some randomness
+                    p.vx += (Math.random() - 0.5) * 0.2;
+                    p.vy += (Math.random() - 0.5) * 0.2;
+
+                    // Friction
+                    p.vx *= 0.98;
+                    p.vy *= 0.98;
+
+                    // Gravity
+                    p.vy += 0.05;
+
+                    // Life decay
+                    p.life -= p.decay;
+                    p.radius *= 0.99;
+
+                    // Remove dead particles
+                    if (p.life <= 0 || p.radius <= 0.1) {
+                        particles.splice(i, 1);
+                        continue;
+                    }
+
+                    // Draw particle
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace('0.3', p.life * 0.3);
+                    ctx.fill();
+
+                    // Draw glow
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace('0.3', p.life * 0.1);
+                    ctx.fill();
+                }
+
+                fluidAnimationId = requestAnimationFrame(animate);
+            }
+
+            // Start animation
+            animate();
+
+            console.log('Canvas 2D fluid effect started');
+        }
+
+        function startWebGLFluid(gl, canvas) {
+            console.log('Starting WebGL fluid simulation...');
+
+            // Simplified WebGL shader for colorful fluid
+            const vertexShader = `attribute vec2 aPosition;
+        void main() {
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }`;
+
+            const fragmentShader = `precision mediump float;
+        uniform float time;
+        uniform vec2 resolution;
+        uniform vec2 mouse;
+        
+        void main() {
+            vec2 uv = gl_FragCoord.xy / resolution;
+            vec2 mouseUV = mouse / resolution;
+            
+            // Create flowing colors
+            float r = 0.5 + 0.3 * sin(time * 0.5 + uv.x * 3.0 + uv.y * 2.0);
+            float g = 0.5 + 0.3 * sin(time * 0.7 + uv.x * 2.0 + uv.y * 3.0);
+            float b = 0.5 + 0.3 * sin(time * 0.9 + uv.x * 4.0 + uv.y * 2.0);
+            
+            // Add mouse interaction
+            float dist = distance(uv, mouseUV);
+            float mouseEffect = 0.05 / max(dist, 0.05);
+            
+            r += mouseEffect * sin(time * 0.8);
+            g += mouseEffect * sin(time * 0.6);
+            b += mouseEffect * sin(time * 0.7);
+            
+            gl_FragColor = vec4(r * 0.3, g * 0.3, b * 0.3, 0.2);
+        }`;
+
+            // Create shader program
+            const program = gl.createProgram();
+            const vs = gl.createShader(gl.VERTEX_SHADER);
+            const fs = gl.createShader(gl.FRAGMENT_SHADER);
+
+            gl.shaderSource(vs, vertexShader);
+            gl.shaderSource(fs, fragmentShader);
+            gl.compileShader(vs);
+            gl.compileShader(fs);
+            gl.attachShader(program, vs);
+            gl.attachShader(program, fs);
+            gl.linkProgram(program);
+            gl.useProgram(program);
+
+            // Create vertices for fullscreen quad
+            const vertices = new Float32Array([
+                -1, -1, 1, -1, -1, 1,
+                1, -1, 1, 1, -1, 1
+            ]);
+
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+            const positionLocation = gl.getAttribLocation(program, "aPosition");
+            gl.enableVertexAttribArray(positionLocation);
+            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+            // Get uniform locations
+            const timeLocation = gl.getUniformLocation(program, "time");
+            const resolutionLocation = gl.getUniformLocation(program, "resolution");
+            const mouseLocation = gl.getUniformLocation(program, "mouse");
+
+            // Mouse tracking
+            let mouseX = 0;
+            let mouseY = 0;
+
+            window.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            // Animation loop
+            let time = 0;
+            function animate() {
+                time += 0.01;
+
+                // Set uniforms
+                gl.uniform1f(timeLocation, time);
+                gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                gl.uniform2f(mouseLocation, mouseX, canvas.height - mouseY);
+
+                // Clear
+                gl.clearColor(0.0, 0.0, 0.0, 0.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                // Draw
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+                fluidAnimationId = requestAnimationFrame(animate);
+            }
+
+            // Start animation
+            animate();
+
+            console.log('WebGL fluid simulation running');
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function () {
+            if (fluidAnimationId) {
+                cancelAnimationFrame(fluidAnimationId);
+            }
+        });
+    </script>
+
+    <script>
+
+        // Function to apply theme
+        function applyTheme(theme) {
+            console.log('🎨 Applying theme to member page:', theme);
+
+            // Set theme attribute
+            document.documentElement.setAttribute('data-theme', theme);
+
+            // Save to localStorage (sync with main app)
+            localStorage.setItem('textguard_theme', theme);
+        }
+
+        // Function to sync theme from main app
+        function syncTheme() {
+            console.log('🔄 Syncing theme for member page...');
+
+            // Priority 1: Check localStorage (saved by main app)
+            const savedTheme = localStorage.getItem('textguard_theme');
+            if (savedTheme) {
+                console.log('✅ Theme from localStorage:', savedTheme);
+                applyTheme(savedTheme);
+                return savedTheme;
+            }
+
+            // Priority 2: Default to dark theme
+            console.log('🌙 Defaulting to dark theme');
+            applyTheme('dark');
+            return 'dark';
+        }
+
+        // Listen for theme changes from main app
+        window.addEventListener('message', function (event) {
+            if (event.data && event.data.type === 'theme-change') {
+                console.log('📨 Received theme change message:', event.data.theme);
+                applyTheme(event.data.theme);
+            }
+        });
+
+        // Listen for storage changes (when theme changes in another tab)
+        window.addEventListener('storage', function (event) {
+            if (event.key === 'textguard_theme') {
+                console.log('💾 Storage theme changed:', event.newValue);
+                applyTheme(event.newValue);
+            }
+        });
+
+const teamMembers = [
+    {
+        id: 1,
+        name: "Ali Asghar",
+        role: "AI/ML Engineer & Full-Stack Developer",
+        isFounder: true,
+        // founderTitle: "Creator",
+        tagline: "Building the future of AI content verification",
+        image: "../client/images/images.png",
+        stats: [
+            { value: "1+", label: "Years Experience" },
+            { value: "10+", label: "Projects Built" },
+            { value: "99.2%", label: "AI Accuracy" },
+            { value: "8+", label: "Technologies" }
+        ],
+        responsibilities: [
+            "AI/ML Model Development & Training",
+            "Full-Stack Application Architecture",
+            "Product Strategy & Vision",
+            "Technical Leadership & Mentoring",
+            "Client & Stakeholder Management"
+        ],
+        achievements: [
+            "Built TextGuard AI from scratch",
+            "Achieved 99.2% AI detection accuracy",
+            "Trained on 3+ million text samples",
+            "Expert in Python, TensorFlow, React, Node.js"
+        ],
+        expertise: [
+            { icon: "fab fa-python", text: "Python, TensorFlow, PyTorch" },
+            { icon: "fab fa-react", text: "React.js, Tailwind CSS" },
+            { icon: "fab fa-node-js", text: "Node.js, Express.js, MongoDB" },
+            { icon: "fas fa-server", text: "AWS & Docker" },
+            { icon: "fas fa-brain", text: "NLP, & ML Ops" }
+        ],
+        contact: [
+            { icon: "fas fa-globe", text: "Portfolio", link: "https://portfolio-tau-three-74.vercel.app" },
+            { icon: "fas fa-envelope", text: "Email", link: "mailto:aliasghargh540@gmail.com" },
+            { icon: "fab fa-github", text: "GitHub", link: "https://github.com/AsgharGhanghro" }
+        ]
+    },
+    {
+        id: 2,
+        name: "Kumari Poosha",
+        role: "Cybersecurity ",
+        tagline: "Applying AI and ML to build intelligent, secure defense systems",
+        image: "../client/images/girl.png",
+        stats: [
+            { value: "3+", label: "Web Projects" },
+            { value: "4+", label: "Certifications" },
+            { value: "5+", label: "Technologies" },
+            { value: "2027", label: "Graduating" }
+        ],
+        responsibilities: [
+            "Cybersecurity Threat Detection & Analysis",
+            "AI-Powered Vulnerability Assessment",
+            "LLM Integration & RAG Pipeline Development",
+            "Encryption & Secure Data Handling",
+            "Web Security & Penetration Testing"
+        ],
+        achievements: [
+            "Built a Web Vulnerability Detection Tool for automated security scanning",
+            "Developed an Encryption & Decryption app using cryptographic algorithms",
+            "Created an AI Toolbox for Student Support using LLM-based features",
+            "Certified in Ethical Hacking from Scratch (Udemy)",
+            "Certified in ISC2 Cybersecurity (CC) Course 2025"
+        ],
+        expertise: [
+            { icon: "fab fa-python", text: "Python, JavaScript, C" },
+            { icon: "fas fa-shield-alt", text: "Web Vulnerability Assessment, Threat Detection" },
+            { icon: "fas fa-brain", text: "LLM Integration, RAG Pipelines, LangChain, AI Agents" },
+            { icon: "fas fa-lock", text: "Encryption & Decryption, TCP/IP, OSI Model" },
+            { icon: "fas fa-database", text: "MySQL, HTML, CSS" }
+        ],
+        contact: [
+            { icon: "fab fa-linkedin", text: "LinkedIn", link: "https://linkedin.com/in/kumaripoosha0" },
+            { icon: "fas fa-envelope", text: "Email", link: "mailto:kumaripoosha0@gmail.com" }
+        ]
+    },
+    {
+        id: 3,
+        name: "Sahil Jethani",
+        role: "Frontend Developer & Web Technologies",
+        tagline: "Crafting responsive, dynamic web experiences with a passion for clean code",
+        image: "../client/images/animate.jpeg",
+        stats: [
+            { value: "5+", label: "Projects Built" },
+            { value: "2+", label: "Certifications" },
+            { value: "6+", label: "Technologies" },
+            { value: "2027", label: "Graduating" }
+        ],
+        responsibilities: [
+            "Frontend Development & UI Design",
+            "Responsive Web Application Building",
+            "Database Design & Management",
+            "Python Scripting & OOP Development",
+            "Academic Scheduling System Development"
+        ],
+        achievements: [
+            "Designed a full e-commerce jewelry store website using HTML, CSS & Bootstrap",
+            "Built a dynamic Timetable Management System in Python with OOP & CSV",
+            "Completed Web Development training under PITP Sindh Government initiative",
+            "Completed Python course under PITP at NED University Mithi",
+            "Developed a Mall Management app using Java OOP concepts"
+        ],
+        expertise: [
+            { icon: "fab fa-html5", text: "HTML, CSS, JavaScript, Bootstrap" },
+            { icon: "fab fa-python", text: "Python, OOP, Pandas, CSV Data Handling" },
+            { icon: "fab fa-java", text: "Java – Data Structures, OOP, Algorithms" },
+            { icon: "fas fa-database", text: "MySQL, PHP, MS Access" },
+            { icon: "fas fa-tools", text: "MS Office, Canva, Web Design" }
+        ],
+        contact: [
+            { icon: "fab fa-linkedin", text: "LinkedIn", link: "https://www.linkedin.com/in/sahil-jethani16/" },
+            { icon: "fas fa-envelope", text: "Email", link: "mailto:sahiljethani7@gmail.com" }
+        ]
+    }
+];
+        let currentMemberIndex = 0;
+
+        // YOUR ORIGINAL TeamCardStack CLASS - NO CHANGES
+        class TeamCardStack {
+            constructor() {
+                this.container = document.getElementById('membersCardStack');
+                this.currentIndex = 0;
+                this.isDragging = false;
+                this.init();
+            }
+
+            init() {
+                this.renderCards();
+                this.renderIndicators();
+                this.showMember(0);
+            }
+
+            renderCards() {
+                [...teamMembers].reverse().forEach((member, reverseIndex) => {
+                    const actualIndex = teamMembers.length - 1 - reverseIndex;
+                    const card = document.createElement('div');
+                    card.className = 'member-card-stack-item';
+                    card.dataset.index = actualIndex;
+
+                    const scale = 0.75 + (reverseIndex * 0.09);
+                    const translateY = reverseIndex * -24;
+                    const translateX = reverseIndex * 19;
+                    const rotation = reverseIndex * -5;
+
+                    card.style.transform = `
+                        rotateZ(${rotation}deg) 
+                        scale(${scale}) 
+                        translate(${translateX}px, ${translateY}px)
+                    `;
+                    card.style.zIndex = teamMembers.length - reverseIndex;
+
+                    card.innerHTML = `
+                        <div class="card-inner">
+                            ${member.isFounder ? '<div class="founder-ribbon">CREATOR</div>' : ''}
+                            <img src="${member.image}" alt="${member.name}">
+                            <div class="card-hover-overlay">
+                                <div class="card-overlay-name">${member.name}</div>
+                                <div class="card-overlay-role">${member.role}</div>
+                            </div>
+                        </div>
+                    `;
+
+                    card.addEventListener('mousedown', (e) => this.startDrag(e, card));
+                    card.addEventListener('touchstart', (e) => this.startDrag(e, card));
+                    card.addEventListener('click', () => !this.isDragging && this.nextCard());
+
+                    this.container.appendChild(card);
+                });
+            }
+
+            startDrag(e, card) {
+                this.isDragging = true;
+                this.draggedCard = card;
+                card.classList.add('dragging');
+
+                const touch = e.touches ? e.touches[0] : e;
+                this.startX = touch.clientX;
+                this.startY = touch.clientY;
+
+                const move = (e) => this.drag(e);
+                const end = () => this.endDrag(move, end);
+
+                document.addEventListener('mousemove', move);
+                document.addEventListener('touchmove', move);
+                document.addEventListener('mouseup', end);
+                document.addEventListener('touchend', end);
+            }
+
+            drag(e) {
+                if (!this.isDragging) return;
+                e.preventDefault();
+
+                const touch = e.touches ? e.touches[0] : e;
+                const deltaX = touch.clientX - this.startX;
+                const deltaY = touch.clientY - this.startY;
+
+                this.draggedCard.style.transform = `
+                    translate(${deltaX}px, ${deltaY}px) 
+                    rotateY(${deltaX * 0.1}deg) 
+                    rotateX(${-deltaY * 0.1}deg) 
+                    scale(0.78)
+                `;
+            }
+
+            endDrag(moveHandler, endHandler) {
+                if (!this.isDragging) return;
+
+                document.removeEventListener('mousemove', moveHandler);
+                document.removeEventListener('touchmove', moveHandler);
+                document.removeEventListener('mouseup', endHandler);
+                document.removeEventListener('touchend', endHandler);
+
+                const transform = this.draggedCard.style.transform;
+                const deltaX = parseInt(transform.match(/translate\((.+?)px/)?.[1] || 0);
+                const deltaY = parseInt(transform.match(/,\s*(.+?)px/)?.[1] || 0);
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                if (distance > 65) {
+                    this.nextCard();
+                } else {
+                    this.resetTopCard();
+                }
+
+                this.draggedCard.classList.remove('dragging');
+                this.isDragging = false;
+            }
+
+            resetTopCard() {
+                const topCard = this.container.lastElementChild;
+                topCard.style.transform = 'rotateZ(0deg) scale(0.75) translate(0px, 0px)';
+            }
+
+            nextCard() {
+                const topCard = this.container.lastElementChild;
+                this.container.insertBefore(topCard, this.container.firstChild);
+
+                const cards = Array.from(this.container.children);
+                cards.forEach((card, index) => {
+                    const reverseIndex = cards.length - 1 - index;
+                    const scale = 0.75 + (reverseIndex * 0.09);
+                    const translateY = reverseIndex * -24;
+                    const translateX = reverseIndex * 19;
+                    const rotation = reverseIndex * -5;
+
+                    card.style.transform = `
+                        rotateZ(${rotation}deg) 
+                        scale(${scale}) 
+                        translate(${translateX}px, ${translateY}px)
+                    `;
+                    card.style.zIndex = index + 1;
+                });
+
+                const newTopCard = this.container.lastElementChild;
+                this.currentIndex = parseInt(newTopCard.dataset.index);
+                this.showMember(this.currentIndex);
+            }
+
+            showMember(index) {
+                currentMemberIndex = index;
+                const member = teamMembers[index];
+                const content = document.getElementById('member-brief');
+
+                const html = `
+                   
+                    <h3 class="member-name">${member.name}</h3>
+                    <div class="member-role">${member.role}</div>
+                    <p class="member-tagline">${member.tagline}</p>
+
+                    <div class="member-stats-grid">
+                        ${member.stats.map(s => `
+                            <div class="stat-box">
+                                <div class="stat-bar">${s.value}</div>
+                                <div class="stat-label">${s.label}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <button class="show-details-btn" onclick="showDetails()">
+                        <i class="fas fa-info-circle"></i> Show Details
+                    </button>
+                `;
+
+                content.classList.remove('active');
+                setTimeout(() => {
+                    content.innerHTML = html;
+                    setTimeout(() => content.classList.add('active'), 50);
+                }, 200);
+
+                this.updateIndicators(index);
+            }
+
+            renderIndicators() {
+                const container = document.getElementById('cardIndicators');
+                teamMembers.forEach((_, index) => {
+                    const dot = document.createElement('div');
+                    dot.className = 'indicator-dot';
+                    dot.onclick = () => this.jumpTo(index);
+                    container.appendChild(dot);
+                });
+            }
+
+            updateIndicators(activeIndex) {
+                document.querySelectorAll('.indicator-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === activeIndex);
+                });
+            }
+
+            jumpTo(targetIndex) {
+                while (this.currentIndex !== targetIndex) {
+                    this.nextCard();
+                }
+            }
+        }
+
+        // YOUR ORIGINAL showDetails FUNCTION
+        function showDetails() {
+            const member = teamMembers[currentMemberIndex];
+            const modal = document.getElementById('details-modal');
+            const content = document.getElementById('details-content');
+
+            content.innerHTML = `
+                <div class="details-header">
+                 
+                    <h3>${member.name}</h3>
+                    <div class="role">${member.role}</div>
+                </div>
+
+                <div class="detail-section">
+                    <h4><i class="fas fa-bullseye"></i> Key Responsibilities</h4>
+                    <ul class="detail-list">
+                        ${member.responsibilities.map(r => `<li><i class="fas fa-check-circle"></i> ${r}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h4><i class="fas fa-trophy"></i> Key Achievements</h4>
+                    <ul class="detail-list">
+                        ${member.achievements.map(a => `<li><i class="fas fa-star"></i> ${a}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h4><i class="fas fa-code"></i> Technical Expertise</h4>
+                    <ul class="detail-list">
+                        ${member.expertise.map(e => `<li><i class="${e.icon}"></i> ${e.text}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="detail-section">
+                    <h4><i class="fas fa-envelope"></i> Contact</h4>
+                    <div class="contact-links">
+                        ${member.contact.map(c => `
+                            <a href="${c.link}" target="_blank" class="contact-link">
+                                <i class="${c.icon}"></i> ${c.text}
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+        }
+
+        // YOUR ORIGINAL closeDetailsModal FUNCTION
+        function closeDetailsModal() {
+            document.getElementById('details-modal').classList.remove('active');
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🚀 Member page loading...');
+
+            // 1. Sync theme from main app
+            const theme = syncTheme();
+            console.log('✅ Initial theme applied:', theme);
+
+            // 2. Initialize your original card stack
+            new TeamCardStack();
+
+            // 3. Request theme from parent if opened from main app
+            try {
+                if (window.opener && !window.opener.closed) {
+                    window.opener.postMessage({
+                        type: 'request-theme'
+                    }, '*');
+                    console.log('📨 Requested theme from opener');
+                }
+            } catch (e) {
+                console.log('⚠️ Could not request theme:', e.message);
+            }
+
+            console.log('✅ Member page initialized');
+        });
+
+        // Periodically sync theme
+        let themeSyncInterval = setInterval(() => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const savedTheme = localStorage.getItem('textguard_theme');
+
+            if (savedTheme && currentTheme !== savedTheme) {
+                console.log('🔄 Theme mismatch detected! Fixing...');
+                applyTheme(savedTheme);
+            }
+        }, 1000);
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function () {
+            if (themeSyncInterval) {
+                clearInterval(themeSyncInterval);
+            }
+        });
+    </script>
+</body>
+
+</html>

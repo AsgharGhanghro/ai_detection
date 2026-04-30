@@ -1,0 +1,53 @@
+# --- Large / sensitive files (never push) ---
+**/*.pkl
+**/*.ipynb
+**/*.csv
+**/*.json.gz
+datasets/
+.env
+.env.*
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- Virtual environments ---
+venv/
+.venv/
+env/
+ENV/
+.Python
+
+# --- VS Code ---
+.vscode/
+*.code-workspace
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Logs & temp ---
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# --- Jupyter (already covered by *.ipynb above, belt & suspenders) ---
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# --- Node (if any frontend tooling is added later) ---
+node_modules/

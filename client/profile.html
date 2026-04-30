@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - TextGuard AI</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Modern Styles -->
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+
+            /* Theme variables */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.8);
+            --bg-card-hover: rgba(30, 41, 59, 0.9);
+            --border-color: rgba(148, 163, 184, 0.1);
+            --border-hover: rgba(148, 163, 184, 0.3);
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 40px rgba(0, 0, 0, 0.2);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --bg-card-hover: rgba(255, 255, 255, 1);
+            --border-color: rgba(226, 232, 240, 0.8);
+            --border-hover: rgba(226, 232, 240, 1);
+
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+
+            --shadow-lg: 0 20px 60px rgba(99, 102, 241, 0.1);
+            --shadow-md: 0 10px 40px rgba(99, 102, 241, 0.08);
+            --shadow-sm: 0 4px 20px rgba(99, 102, 241, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        /* Background Effects */
+        .background-effects {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .gradient-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .circle-1 {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            top: -300px;
+            right: -300px;
+        }
+
+        .circle-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+            bottom: -200px;
+            left: -200px;
+            animation-delay: -5s;
+        }
+
+        .circle-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            top: 50%;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(50px, 50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-30px, 30px) scale(0.9);
+            }
+        }
+
+        /* Minimal Header */
+        .profile-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        [data-theme="light"] .profile-header {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* Main Content */
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 2rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .hero-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg), 0 20px 60px rgba(99, 102, 241, 0.2);
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        /* Avatar */
+        .avatar-wrapper {
+            position: relative;
+        }
+
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .avatar-hover {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .avatar:hover .avatar-hover {
+            opacity: 1;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .avatar-hover i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* Profile Info */
+        .profile-main {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-email {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .profile-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .badge:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .badge i {
+            color: var(--primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .trend-up {
+            color: var(--success);
+        }
+
+        .trend-down {
+            color: var(--error);
+        }
+
+        /* Profile Content */
+        .profile-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 992px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Info Cards */
+        .info-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
+        /* Detail Items */
+        .detail-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-item:hover {
+            background: var(--bg-card-hover);
+            transform: translateX(8px);
+        }
+
+        .detail-item:hover .detail-actions {
+            opacity: 1;
+        }
+
+        .detail-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .detail-item:hover .detail-value {
+            color: var(--primary);
+        }
+
+        .detail-actions {
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        /* Activity List */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .activity-item:hover {
+            transform: translateX(8px);
+            background: var(--bg-card-hover);
+            border-left-color: var(--accent);
+        }
+
+        .activity-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            transition: var(--transition);
+        }
+
+        .btn:hover::before {
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 120px;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .action-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+            color: var(--primary);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 100px 1rem 2rem;
+            }
+
+            .hero-card {
+                padding: 2rem;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .avatar {
+                margin: 0 auto;
+            }
+
+            .profile-name {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section {
+                padding: 2rem 1rem;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Effects -->
+    <div class="background-effects">
+        <div class="gradient-circle circle-1"></div>
+        <div class="gradient-circle circle-2"></div>
+        <div class="gradient-circle circle-3"></div>
+    </div>
+
+    <!-- Fluid Effect Canvas -->
+    <canvas id="fluid"
+        style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:-1;"></canvas>
+
+    <!-- Your existing background effects -->
+    <div class="bg-blur-1"></div>
+    <div class="bg-blur-2"></div>
+
+    <!-- Minimal Header -->
+    <header class="profile-header">
+        <a href="index.html" class="header-brand">
+            <div class="logo-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="logo-text">TextGuard</div>
+        </a>
+
+    </header>
+    
+
+    <!-- Main Content -->
+    <main class="profile-container">
+        <!-- Hero Section -->
+        <section class="hero-section fade-in-up">
+            <div class="hero-card">
+                <div class="hero-content">
+                    <!-- Avatar -->
+                    <div class="avatar-wrapper">
+                        <div class="avatar" onclick="handleProfilePictureUpload()">
+                            <div id="avatar-image" class="avatar-image">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="avatar-hover">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Info -->
+                    <div class="profile-main">
+                        <h1 id="profile-name" class="profile-name">Loading...</h1>
+                        <p id="profile-email" class="profile-email">
+                            <i class="fas fa-envelope"></i>
+                            <span>Loading...</span>
+                        </p>
+                        <div class="profile-badges">
+                            <span id="verified-badge" class="badge" style="display: none;">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </span>
+                            <span id="plan-badge" class="badge">
+                                <i class="fas fa-crown"></i> <span>Free Plan</span>
+                            </span>
+                            <span id="member-badge" class="badge">
+                                <i class="fas fa-calendar"></i> <span>Member since: Loading...</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Edit Button -->
+                    <div class="profile-actions">
+                        <button onclick="editProfile()" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid fade-in-up" style="animation-delay: 0.1s">
+            <div class="stat-card">
+                <div class="stat-value" id="total-analyses">0</div>
+                <div class="stat-label">Total Analyses</div>
+                <div class="stat-trend trend-up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+12% this month</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" id="ai-detections">0</div>
+                <div class="stat-label">AI Detections</div>
+                <div class="stat-trend trend-up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+8% this week</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" id="plagiarism-checks">0</div>
+                <div class="stat-label">Plagiarism Checks</div>
+                <div class="stat-trend trend-down">
+                    <i class="fas fa-arrow-down"></i>
+                    <span>-3% this week</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value" id="avg-confidence">0%</div>
+                <div class="stat-label">Avg Confidence</div>
+                <div class="stat-trend trend-up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+5% overall</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Content -->
+        <div class="profile-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Personal Info -->
+                <div class="info-card fade-in-up" style="animation-delay: 0.2s">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-user-circle"></i>
+                            Personal Information
+                        </h3>
+                        <button onclick="editPersonalInfo()" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+
+                    <div class="detail-list">
+                        <div class="detail-item" onclick="editField('name')">
+                            <div class="detail-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="detail-content">
+                                <div class="detail-label">Full Name</div>
+                                <div class="detail-value" id="detail-name">Loading...</div>
+                            </div>
+                            <div class="detail-actions">
+                                <i class="fas fa-edit" style="color: var(--primary);"></i>
+                            </div>
+                        </div>
+
+                        <div class="detail-item" onclick="editField('bio')">
+                            <div class="detail-icon">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <div class="detail-content">
+                                <div class="detail-label">Bio</div>
+                                <div class="detail-value" id="detail-bio">No bio added yet</div>
+                            </div>
+                            <div class="detail-actions">
+                                <i class="fas fa-edit" style="color: var(--primary);"></i>
+                            </div>
+                        </div>
+
+                        <div class="detail-item" onclick="editField('location')">
+                            <div class="detail-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <div class="detail-label">Location</div>
+                                <div class="detail-value" id="detail-location">Not specified</div>
+                            </div>
+                            <div class="detail-actions">
+                                <i class="fas fa-edit" style="color: var(--primary);"></i>
+                            </div>
+                        </div>
+
+                        <div class="detail-item" onclick="editField('website')">
+                            <div class="detail-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="detail-content">
+                                <div class="detail-label">Website</div>
+                                <div class="detail-value" id="detail-website">Not specified</div>
+                            </div>
+                            <div class="detail-actions">
+                                <i class="fas fa-edit" style="color: var(--primary);"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Recent Activity -->
+                <div class="info-card fade-in-up" style="animation-delay: 0.3s">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-history"></i>
+                            Recent Activity
+                        </h3>
+                        <a href="history.html" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+
+                    <div class="activity-list" id="recent-activity">
+                        <!-- Activity will be loaded here -->
+                    </div>
+
+                    <div id="no-activity" class="empty-state" style="display: none;">
+                        <div class="empty-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3>No Recent Activity</h3>
+                        <p>Start analyzing text to see your activity here</p>
+                        <a href="index.html" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            <i class="fas fa-rocket"></i> Start Analyzing
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons fade-in-up" style="animation-delay: 0.4s">
+            <a href="history.html" class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="action-label">History</div>
+            </a>
+
+            <a href="settings.html" class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="action-label">Settings</div>
+            </a>
+
+            <a href="index.html" class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="action-label">Upgrade</div>
+            </a>
+
+
+
+            <a href="#" onclick="logout()" class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <div class="action-label">Sign Out</div>
+            </a>
+        </div>
+
+        <!-- CTA Section -->
+        <section class="cta-section fade-in-up" style="animation-delay: 0.5s">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Level Up?</h2>
+                <p class="cta-description">
+                    Unlock premium features, higher limits, and advanced analysis with TextGuard Pro.
+                    Get detailed insights and priority support.
+                </p>
+
+
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fas fa-crown"></i> View Plans & Pricing
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modern Profile Script -->
+    <script>
+        // Initialize on DOM load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set theme
+            const savedTheme = localStorage.getItem('textguard_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            // Load profile data
+            loadProfile();
+
+            // Initialize animations
+            initializeAnimations();
+        });
+
+        // Load profile data
+        function loadProfile() {
+            const userData = localStorage.getItem('textguard_user');
+            const authToken = localStorage.getItem('textguard_token');
+
+            if (!userData || !authToken) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const user = JSON.parse(userData);
+                updateProfileUI(user);
+                updateStatistics(user);
+                updateRecentActivity(user.analytics);
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showNotification('Failed to load profile', 'error');
+            }
+        }
+
+        // Update profile UI
+        function updateProfileUI(user) {
+            // Basic info
+            document.getElementById('profile-name').textContent = user.name || 'User';
+            document.getElementById('detail-name').textContent = user.name || 'User';
+
+            // Email
+            const emailElement = document.getElementById('profile-email');
+            if (emailElement) {
+                emailElement.querySelector('span').textContent = user.email || 'No email';
+            }
+
+            // Join date
+            const joinDate = user.createdAt ?
+                new Date(user.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }) : 'Recently';
+
+            const memberBadge = document.getElementById('member-badge');
+            if (memberBadge) {
+                memberBadge.querySelector('span').textContent = `Since ${joinDate}`;
+            }
+
+            // Verification
+            const verifiedBadge = document.getElementById('verified-badge');
+            if (verifiedBadge) {
+                verifiedBadge.style.display = user.verified ? 'inline-flex' : 'none';
+            }
+
+            // Plan
+            const planBadge = document.getElementById('plan-badge');
+            if (planBadge) {
+                const planText = user.plan ?
+                    `${user.plan.charAt(0).toUpperCase() + user.plan.slice(1)} Plan` : 'Free Plan';
+                planBadge.querySelector('span').textContent = planText;
+            }
+
+            // Avatar
+            updateAvatar(user);
+
+            // Personal info
+            updatePersonalInfo(user);
+        }
+
+        // Update avatar
+        function updateAvatar(user) {
+            const avatar = document.getElementById('avatar-image');
+            if (!avatar) return;
+
+            if (user.profile?.avatar) {
+                avatar.innerHTML = `<img src="${user.profile.avatar}" alt="${user.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            } else {
+                const initials = user.name ?
+                    user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'U';
+                avatar.innerHTML = `<span style="font-size: 3rem; font-weight: bold; color: white;">${initials}</span>`;
+            }
+        }
+
+        // Update personal info
+        function updatePersonalInfo(user) {
+            const fields = {
+                'bio': user.profile?.bio || 'No bio added yet',
+                'location': user.profile?.location || 'Not specified',
+                'website': user.profile?.website || 'Not specified'
+            };
+
+            Object.entries(fields).forEach(([field, value]) => {
+                const element = document.getElementById(`detail-${field}`);
+                if (element) {
+                    element.textContent = value;
+                    if (value.includes('No') || value.includes('Not')) {
+                        element.style.color = 'var(--text-secondary)';
+                        element.style.fontStyle = 'italic';
+                    } else {
+                        element.style.color = 'var(--text-primary)';
+                        element.style.fontStyle = 'normal';
+                    }
+                }
+            });
+        }
+
+        // Update statistics
+        function updateStatistics(user) {
+            const analytics = user.analytics || {};
+            const stats = {
+                'total-analyses': analytics.totalAnalyses || 0,
+                'ai-detections': analytics.aiDetections || 0,
+                'plagiarism-checks': analytics.plagiarismDetections || 0,
+                'total-characters': analytics.totalCharacters || 0
+            };
+
+            Object.entries(stats).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    animateCounter(element, value, id === 'avg-confidence' ? '%' : '');
+                }
+            });
+
+            // Average confidence
+            const recentAnalyses = analytics.recentAnalyses || [];
+            if (recentAnalyses.length > 0) {
+                const avgConfidence = recentAnalyses.reduce((sum, a) => sum + a.confidence, 0) / recentAnalyses.length;
+                const avgElement = document.getElementById('avg-confidence');
+                if (avgElement) {
+                    animateCounter(avgElement, avgConfidence, '%');
+                }
+            }
+        }
+
+        // Animate counter
+        function animateCounter(element, target, suffix = '') {
+            const current = parseFloat(element.textContent.replace(/[^0-9.-]+/g, '')) || 0;
+            const duration = 1500;
+            const startTime = performance.now();
+
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeProgress = progress < 0.5
+                    ? 2 * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+                const value = current + (target - current) * easeProgress;
+
+                if (suffix === '%') {
+                    element.textContent = `${value.toFixed(1)}${suffix}`;
+                } else {
+                    element.textContent = Math.floor(value).toLocaleString() + suffix;
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            }
+
+            requestAnimationFrame(updateCounter);
+        }
+
+        // Update recent activity
+        function updateRecentActivity(analytics) {
+            const container = document.getElementById('recent-activity');
+            const noActivity = document.getElementById('no-activity');
+
+            const recentAnalyses = analytics?.recentAnalyses || [];
+
+            if (recentAnalyses.length === 0) {
+                if (container) container.style.display = 'none';
+                if (noActivity) noActivity.style.display = 'block';
+                return;
+            }
+
+            if (noActivity) noActivity.style.display = 'none';
+            if (container) container.style.display = 'flex';
+
+            let html = '';
+            recentAnalyses.slice(0, 4).forEach(analysis => {
+                const isAI = analysis.mode === 'ai';
+                const type = isAI ? 'AI Detection' : 'Plagiarism Check';
+                const icon = isAI ? 'fa-robot' : 'fa-copy';
+                const color = isAI ? 'var(--accent)' : 'var(--warning)';
+
+                const date = new Date(analysis.timestamp);
+                const timeStr = date.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                const dateStr = date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                const scoreColor = analysis.score > 70 ? 'var(--error)' :
+                    analysis.score > 30 ? 'var(--warning)' : 'var(--success)';
+
+                html += `
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">${type}</div>
+                            <div class="activity-meta">
+                                <span><i class="fas fa-clock"></i> ${timeStr}</span>
+                                <span><i class="fas fa-calendar"></i> ${dateStr}</span>
+                                <span style="color: ${scoreColor}"><i class="fas fa-chart-line"></i> ${analysis.score.toFixed(1)}%</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (container) {
+                container.innerHTML = html;
+            }
+        }
+
+        // Profile picture upload
+
+        function handleProfilePictureUpload() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                if (file.size > 5 * 1024 * 1024) {
+                    showNotification('Image must be less than 5MB', 'error');
+                    return;
+                }
+
+                if (!file.type.startsWith('image/')) {
+                    showNotification('Please select an image file', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const avatarUrl = e.target.result;
+
+                    // Update avatar globally
+                    const success = updateGlobalAvatar(avatarUrl);
+
+                    if (success) {
+                        // Update UI
+                        const avatarElement = document.getElementById('avatar-image');
+                        if (avatarElement) {
+                            avatarElement.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                        }
+
+                        // Show success message
+                        showNotification('Profile picture updated everywhere!', 'success');
+
+                        // Try to notify parent window (if in iframe)
+                        try {
+                            if (window.parent !== window) {
+                                window.parent.postMessage({
+                                    type: 'AVATAR_UPDATE',
+                                    avatar: avatarUrl
+                                }, '*');
+                            }
+                        } catch (error) {
+                            console.log('Not in iframe context or cross-origin issue');
+                        }
+
+                        // Dispatch storage event to sync across tabs
+                        window.dispatchEvent(new StorageEvent('storage', {
+                            key: 'textguard_user',
+                            newValue: localStorage.getItem('textguard_user')
+                        }));
+                    } else {
+                        showNotification('Failed to update profile picture', 'error');
+                    }
+                };
+
+                reader.onerror = () => {
+                    showNotification('Error reading image file', 'error');
+                };
+
+                reader.readAsDataURL(file);
+            };
+
+            input.click();
+        }
+        // Function to update avatar globally
+        function updateGlobalAvatar(avatarUrl) {
+            const userData = localStorage.getItem('textguard_user');
+            if (!userData) return false;
+
+            try {
+                const user = JSON.parse(userData);
+                if (!user.profile) user.profile = {};
+                user.profile.avatar = avatarUrl;
+
+                // Save to current user
+                localStorage.setItem('textguard_user', JSON.stringify(user));
+
+                // Save to users list
+                const users = JSON.parse(localStorage.getItem('textguard_users') || '[]');
+                const userIndex = users.findIndex(u => u.id === user.id);
+                if (userIndex !== -1) {
+                    users[userIndex] = user;
+                    localStorage.setItem('textguard_users', JSON.stringify(users));
+                }
+
+                return true;
+            } catch (error) {
+                console.error('Error updating global avatar:', error);
+                return false;
+            }
+        }
+
+        // Function to get user avatar from global storage
+        function getUserAvatar() {
+            const userData = localStorage.getItem('textguard_user');
+            if (!userData) return null;
+
+            try {
+                const user = JSON.parse(userData);
+                return user.profile?.avatar || null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        // Add this function to update avatar from global data
+        function updateAvatarFromGlobal() {
+            const avatar = getUserAvatar();
+            const avatarElement = document.getElementById('avatar-image');
+
+            if (!avatarElement) return;
+
+            if (avatar) {
+                avatarElement.innerHTML = `<img src="${avatar}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            } else {
+                const userData = localStorage.getItem('textguard_user');
+                if (userData) {
+                    try {
+                        const user = JSON.parse(userData);
+                        const initials = user.name ?
+                            user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'U';
+                        avatarElement.innerHTML = `<span style="font-size: 3rem; font-weight: bold; color: white;">${initials}</span>`;
+                    } catch (error) {
+                        avatarElement.innerHTML = `<i class="fas fa-user"></i>`;
+                    }
+                }
+            }
+        }
+
+        // Edit profile
+        function editProfile() {
+            editField('name');
+        }
+
+        // Edit field
+        function editField(field) {
+            const userData = localStorage.getItem('textguard_user');
+            if (!userData) return;
+
+            const user = JSON.parse(userData);
+
+            const labels = {
+                'name': 'Full Name',
+                'bio': 'Bio',
+                'location': 'Location',
+                'website': 'Website URL'
+            };
+
+            const currentValue = field === 'name'
+                ? user.name
+                : user.profile?.[field] || '';
+
+            const placeholder = {
+                'name': 'Enter your full name',
+                'bio': 'Tell us about yourself',
+                'location': 'Enter your location',
+                'website': 'https://example.com'
+            }[field];
+
+            const inputType = field === 'website' ? 'url' : 'text';
+
+            const modal = document.createElement('div');
+            modal.className = 'edit-modal-overlay';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                backdrop-filter: blur(5px);
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: var(--bg-card);
+                    border: 1px solid var(--border-color);
+                    border-radius: var(--radius-md);
+                    padding: 2rem;
+                    max-width: 400px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--text-primary); margin: 0; font-size: 1.25rem;">Edit ${labels[field]}</h3>
+                        <button onclick="closeEditModal()" style="
+                            background: none;
+                            border: none;
+                            color: var(--text-secondary);
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            padding: 0;
+                            width: 32px;
+                            height: 32px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 50%;
+                        ">&times;</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="
+                            display: block;
+                            margin-bottom: 0.5rem;
+                            color: var(--text-secondary);
+                            font-size: 0.875rem;
+                        ">
+                            ${labels[field]}
+                        </label>
+                        
+                        ${field === 'bio' ? `
+                            <textarea id="edit-field-input" 
+                                style="
+                                    width: 100%;
+                                    padding: 0.75rem;
+                                    background: var(--bg-card);
+                                    border: 1px solid var(--border-color);
+                                    border-radius: var(--radius-sm);
+                                    color: var(--text-primary);
+                                    font-family: inherit;
+                                    resize: vertical;
+                                    min-height: 100px;
+                                "
+                                placeholder="${placeholder}">${currentValue}</textarea>
+                        ` : `
+                            <input type="${inputType}" 
+                                   id="edit-field-input" 
+                                   value="${currentValue}" 
+                                   placeholder="${placeholder}"
+                                   style="
+                                        width: 100%;
+                                        padding: 0.75rem;
+                                        background: var(--bg-card);
+                                        border: 1px solid var(--border-color);
+                                        border-radius: var(--radius-sm);
+                                        color: var(--text-primary);
+                                        font-family: inherit;
+                                   ">
+                        `}
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button onclick="closeEditModal()" style="
+                            padding: 0.5rem 1.5rem;
+                            border-radius: var(--radius-sm);
+                            background: transparent;
+                            color: var(--text-secondary);
+                            border: 1px solid var(--border-color);
+                            cursor: pointer;
+                            font-weight: 500;
+                        ">
+                            Cancel
+                        </button>
+                        <button onclick="saveField('${field}')" style="
+                            padding: 0.5rem 1.5rem;
+                            border-radius: var(--radius-sm);
+                            background: linear-gradient(135deg, var(--primary), var(--secondary));
+                            color: white;
+                            border: none;
+                            cursor: pointer;
+                            font-weight: 500;
+                        ">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            setTimeout(() => {
+                const input = document.getElementById('edit-field-input');
+                if (input) {
+                    input.focus();
+                    if (field === 'name' || field === 'website') {
+                        input.select();
+                    }
+                }
+            }, 100);
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            const modal = document.querySelector('.edit-modal-overlay');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Save field
+        function saveField(field) {
+            const input = document.getElementById('edit-field-input');
+            if (!input) return;
+
+            const newValue = input.value.trim();
+
+            const userData = localStorage.getItem('textguard_user');
+            if (!userData) return;
+
+            const user = JSON.parse(userData);
+
+            if (field === 'name' && !newValue) {
+                showNotification('Name cannot be empty', 'error');
+                return;
+            }
+
+            if (field === 'website' && newValue) {
+                try {
+                    new URL(newValue);
+                } catch (e) {
+                    showNotification('Please enter a valid URL', 'error');
+                    return;
+                }
+            }
+
+            if (field === 'name') {
+                user.name = newValue;
+            } else {
+                if (!user.profile) user.profile = {};
+                user.profile[field] = newValue;
+            }
+
+            localStorage.setItem('textguard_user', JSON.stringify(user));
+
+            const users = JSON.parse(localStorage.getItem('textguard_users') || '[]');
+            const userIndex = users.findIndex(u => u.id === user.id);
+            if (userIndex !== -1) {
+                users[userIndex] = user;
+                localStorage.setItem('textguard_users', JSON.stringify(users));
+            }
+
+            loadProfile();
+
+            const fieldName = field === 'name' ? 'Name' : field.charAt(0).toUpperCase() + field.slice(1);
+            showNotification(`${fieldName} updated successfully!`, 'success');
+
+            closeEditModal();
+        }
+
+        // Edit personal info
+        function editPersonalInfo() {
+            const userData = localStorage.getItem('textguard_user');
+            if (!userData) return;
+
+            const user = JSON.parse(userData);
+
+            const modal = document.createElement('div');
+            modal.className = 'edit-modal-overlay';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                backdrop-filter: blur(5px);
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: var(--bg-card);
+                    border: 1px solid var(--border-color);
+                    border-radius: var(--radius-md);
+                    padding: 2rem;
+                    max-width: 500px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--text-primary); margin: 0; font-size: 1.25rem;">Edit Personal Information</h3>
+                        <button onclick="closeEditModal()" style="
+                            background: none;
+                            border: none;
+                            color: var(--text-secondary);
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            padding: 0;
+                            width: 32px;
+                            height: 32px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 50%;
+                        ">&times;</button>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div>
+                            <label style="
+                                display: block;
+                                margin-bottom: 0.5rem;
+                                color: var(--text-secondary);
+                                font-size: 0.875rem;
+                            ">Bio</label>
+                            <textarea id="edit-personal-bio" style="
+                                width: 100%;
+                                padding: 0.75rem;
+                                background: var(--bg-card);
+                                border: 1px solid var(--border-color);
+                                border-radius: var(--radius-sm);
+                                color: var(--text-primary);
+                                font-family: inherit;
+                                resize: vertical;
+                                min-height: 100px;
+                            ">${user.profile?.bio || ''}</textarea>
+                        </div>
+                        
+                        <div>
+                            <label style="
+                                display: block;
+                                margin-bottom: 0.5rem;
+                                color: var(--text-secondary);
+                                font-size: 0.875rem;
+                            ">Location</label>
+                            <input type="text" id="edit-personal-location" value="${user.profile?.location || ''}" style="
+                                width: 100%;
+                                padding: 0.75rem;
+                                background: var(--bg-card);
+                                border: 1px solid var(--border-color);
+                                border-radius: var(--radius-sm);
+                                color: var(--text-primary);
+                                font-family: inherit;
+                            ">
+                        </div>
+                        
+                        <div>
+                            <label style="
+                                display: block;
+                                margin-bottom: 0.5rem;
+                                color: var(--text-secondary);
+                                font-size: 0.875rem;
+                            ">Website</label>
+                            <input type="url" id="edit-personal-website" value="${user.profile?.website || ''}" style="
+                                width: 100%;
+                                padding: 0.75rem;
+                                background: var(--bg-card);
+                                border: 1px solid var(--border-color);
+                                border-radius: var(--radius-sm);
+                                color: var(--text-primary);
+                                font-family: inherit;
+                            ">
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                        <button onclick="closeEditModal()" style="
+                            padding: 0.5rem 1.5rem;
+                            border-radius: var(--radius-sm);
+                            background: transparent;
+                            color: var(--text-secondary);
+                            border: 1px solid var(--border-color);
+                            cursor: pointer;
+                            font-weight: 500;
+                        ">
+                            Cancel
+                        </button>
+                        <button onclick="savePersonalInfo()" style="
+                            padding: 0.5rem 1.5rem;
+                            border-radius: var(--radius-sm);
+                            background: linear-gradient(135deg, var(--primary), var(--secondary));
+                            color: white;
+                            border: none;
+                            cursor: pointer;
+                            font-weight: 500;
+                        ">
+                            Save All Changes
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+        }
+
+        // Save personal info
+        function savePersonalInfo() {
+            const userData = localStorage.getItem('textguard_user');
+            if (!userData) return;
+
+            const user = JSON.parse(userData);
+            if (!user.profile) user.profile = {};
+
+            const bio = document.getElementById('edit-personal-bio')?.value.trim() || '';
+            const location = document.getElementById('edit-personal-location')?.value.trim() || '';
+            const website = document.getElementById('edit-personal-website')?.value.trim() || '';
+
+            if (website) {
+                try {
+                    new URL(website);
+                } catch (e) {
+                    showNotification('Please enter a valid URL for website', 'error');
+                    return;
+                }
+            }
+
+            user.profile.bio = bio;
+            user.profile.location = location;
+            user.profile.website = website;
+
+            localStorage.setItem('textguard_user', JSON.stringify(user));
+
+            const users = JSON.parse(localStorage.getItem('textguard_users') || '[]');
+            const userIndex = users.findIndex(u => u.id === user.id);
+            if (userIndex !== -1) {
+                users[userIndex] = user;
+                localStorage.setItem('textguard_users', JSON.stringify(users));
+            }
+
+            loadProfile();
+            showNotification('Personal information updated successfully!', 'success');
+            closeEditModal();
+        }
+
+        // Initialize animations
+        function initializeAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Scroll to pricing
+        function scrollToPricing() {
+            showNotification('Pricing page coming soon!', 'info');
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Are you sure you want to sign out?')) {
+                localStorage.removeItem('textguard_token');
+                localStorage.removeItem('textguard_user');
+                showNotification('Successfully signed out', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                background: ${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--error)' : type === 'warning' ? 'var(--warning)' : 'var(--primary)'};
+                color: white;
+                border-radius: var(--radius-sm);
+                box-shadow: var(--shadow-lg);
+                z-index: 3000;
+                animation: slideIn 0.3s ease;
+            `;
+
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+
+    </script>
+
+
+    <script>
+        // ===========================================
+        // FLUID EFFECT - Exact React Component Conversion
+        // ===========================================
+
+        let fluidAnimationId = null;
+        let fluidConfig = {
+            SIM_RESOLUTION: 128,
+            DYE_RESOLUTION: 1440,
+            CAPTURE_RESOLUTION: 512,
+            DENSITY_DISSIPATION: 3.5,
+            VELOCITY_DISSIPATION: 2,
+            PRESSURE: 0.1,
+            PRESSURE_ITERATIONS: 20,
+            CURL: 3,
+            SPLAT_RADIUS: 0.2,
+            SPLAT_FORCE: 6000,
+            SHADING: true,
+            COLOR_UPDATE_SPEED: 10,
+            BACK_COLOR: { r: 0.5, g: 0, b: 0 },
+            TRANSPARENT: true
+        };
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Loading fluid effect...');
+            setTimeout(initFluidEffect, 500);
+        });
+
+        function initFluidEffect() {
+            const canvas = document.getElementById('fluid');
+            if (!canvas) {
+                console.error('Fluid canvas not found');
+                return;
+            }
+
+            // Set canvas size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Get WebGL context
+            const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (!gl) {
+                console.error('WebGL not supported');
+                // Fallback to canvas 2D effect
+                initCanvasFallback();
+                return;
+            }
+
+            console.log('WebGL initialized, starting fluid simulation...');
+            startWebGLFluid(gl, canvas);
+        }
+
+        function initCanvasFallback() {
+            console.log('Using Canvas 2D fallback');
+            const canvas = document.getElementById('fluid');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Simple colorful particles
+            const particles = [];
+            const maxParticles = 100;
+
+            // Mouse tracking
+            let mouseX = canvas.width / 2;
+            let mouseY = canvas.height / 2;
+
+            window.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                // Create particles on mouse move
+                for (let i = 0; i < 3; i++) {
+                    if (particles.length >= maxParticles) {
+                        particles.shift();
+                    }
+
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 1 + Math.random() * 2;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+
+                    // Generate vibrant colors
+                    const hue = Math.floor(Math.random() * 360);
+                    const color = `hsla(${hue}, 100%, 70%, 0.3)`;
+
+                    particles.push({
+                        x: mouseX,
+                        y: mouseY,
+                        vx: vx,
+                        vy: vy,
+                        radius: 2 + Math.random() * 3,
+                        color: color,
+                        life: 1.0,
+                        decay: 0.02
+                    });
+                }
+            });
+
+            // Animation loop
+            function animate() {
+                // Clear with fade effect
+                ctx.fillStyle = 'rgba(12, 12, 25, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Update and draw particles
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Add some randomness
+                    p.vx += (Math.random() - 0.5) * 0.2;
+                    p.vy += (Math.random() - 0.5) * 0.2;
+
+                    // Friction
+                    p.vx *= 0.98;
+                    p.vy *= 0.98;
+
+                    // Gravity
+                    p.vy += 0.05;
+
+                    // Life decay
+                    p.life -= p.decay;
+                    p.radius *= 0.99;
+
+                    // Remove dead particles
+                    if (p.life <= 0 || p.radius <= 0.1) {
+                        particles.splice(i, 1);
+                        continue;
+                    }
+
+                    // Draw particle
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace('0.3', p.life * 0.3);
+                    ctx.fill();
+
+                    // Draw glow
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color.replace('0.3', p.life * 0.1);
+                    ctx.fill();
+                }
+
+                fluidAnimationId = requestAnimationFrame(animate);
+            }
+
+            // Start animation
+            animate();
+
+            console.log('Canvas 2D fluid effect started');
+        }
+
+        function startWebGLFluid(gl, canvas) {
+            console.log('Starting WebGL fluid simulation...');
+
+            // Simplified WebGL shader for colorful fluid
+            const vertexShader = `attribute vec2 aPosition;
+        void main() {
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }`;
+
+            const fragmentShader = `precision mediump float;
+        uniform float time;
+        uniform vec2 resolution;
+        uniform vec2 mouse;
+        
+        void main() {
+            vec2 uv = gl_FragCoord.xy / resolution;
+            vec2 mouseUV = mouse / resolution;
+            
+            // Create flowing colors
+            float r = 0.5 + 0.3 * sin(time * 0.5 + uv.x * 3.0 + uv.y * 2.0);
+            float g = 0.5 + 0.3 * sin(time * 0.7 + uv.x * 2.0 + uv.y * 3.0);
+            float b = 0.5 + 0.3 * sin(time * 0.9 + uv.x * 4.0 + uv.y * 2.0);
+            
+            // Add mouse interaction
+            float dist = distance(uv, mouseUV);
+            float mouseEffect = 0.05 / max(dist, 0.05);
+            
+            r += mouseEffect * sin(time * 0.8);
+            g += mouseEffect * sin(time * 0.6);
+            b += mouseEffect * sin(time * 0.7);
+            
+            gl_FragColor = vec4(r * 0.3, g * 0.3, b * 0.3, 0.2);
+        }`;
+
+            // Create shader program
+            const program = gl.createProgram();
+            const vs = gl.createShader(gl.VERTEX_SHADER);
+            const fs = gl.createShader(gl.FRAGMENT_SHADER);
+
+            gl.shaderSource(vs, vertexShader);
+            gl.shaderSource(fs, fragmentShader);
+            gl.compileShader(vs);
+            gl.compileShader(fs);
+            gl.attachShader(program, vs);
+            gl.attachShader(program, fs);
+            gl.linkProgram(program);
+            gl.useProgram(program);
+
+            // Create vertices for fullscreen quad
+            const vertices = new Float32Array([
+                -1, -1, 1, -1, -1, 1,
+                1, -1, 1, 1, -1, 1
+            ]);
+
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+            const positionLocation = gl.getAttribLocation(program, "aPosition");
+            gl.enableVertexAttribArray(positionLocation);
+            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+            // Get uniform locations
+            const timeLocation = gl.getUniformLocation(program, "time");
+            const resolutionLocation = gl.getUniformLocation(program, "resolution");
+            const mouseLocation = gl.getUniformLocation(program, "mouse");
+
+            // Mouse tracking
+            let mouseX = 0;
+            let mouseY = 0;
+
+            window.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            // Animation loop
+            let time = 0;
+            function animate() {
+                time += 0.01;
+
+                // Set uniforms
+                gl.uniform1f(timeLocation, time);
+                gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                gl.uniform2f(mouseLocation, mouseX, canvas.height - mouseY);
+
+                // Clear
+                gl.clearColor(0.0, 0.0, 0.0, 0.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                // Draw
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+                fluidAnimationId = requestAnimationFrame(animate);
+            }
+
+            // Start animation
+            animate();
+
+            console.log('WebGL fluid simulation running');
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function () {
+            if (fluidAnimationId) {
+                cancelAnimationFrame(fluidAnimationId);
+            }
+        });
+    </script>
+</body>
+
+</html>

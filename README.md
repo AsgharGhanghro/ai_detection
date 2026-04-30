@@ -57,7 +57,6 @@ Results are returned in **3–5 seconds** with sentence-level breakdowns, confid
 | 📊 Analytics Dashboard | Real-time charts, history, and usage stats |
 | 📁 PDF Upload | Extract and analyze text directly from PDF files |
 | 🔐 Google OAuth | Sign in with Google, JWT-based sessions |
-| 🌐 Multi-language | Supports 100+ languages |
 | 💬 AI Chatbot | Built-in support assistant with contextual KB |
 | 🌓 Dark / Light Theme | Full theme toggle with persistent preference |
 | 📤 Export Reports | Download results as PDF or Excel |
@@ -352,7 +351,7 @@ The core detection model is located at `server/artifacts/universal_text_system.p
 | AI Detection Accuracy | **99.2%** |
 | False Positive Rate | < 2% |
 | Inference Time | ~300–500 ms |
-| Supported Languages | 100+ |
+
 
 ### Features Extracted
 
